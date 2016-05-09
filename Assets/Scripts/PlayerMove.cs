@@ -3,259 +3,252 @@ using System.Collections;
 
 public class PlayerMove : MonoBehaviour {
 
-    private	Player m_Player;
+    //Access to the main class
 
-	//Access to the main class
-	//private Mower m_Mower;
-	//Access to the Rigidbody Component
-	private Rigidbody m_Rigidbody;
+    //Access to the Rigidbody Component
+    private Rigidbody m_Rigidbody;
 
-	//Stock the player ID, for Multiplayer
-	//private int m_PlayerId;
 
-	// Displacement
-	public float m_MaxSpeed;
-	public float m_Speed;
-	public Vector3 m_DisplacementDirection;
+    //Stock the player ID, for Multiplayer
+    private int m_PlayerId;
 
-	public float m_CurrentSpeed = 0.0f;
+    // Displacement
+    public float m_BaseSpeed;
+    public float m_MaxSpeed;
+    public float m_MinSpeed;
+    public float m_Accel;
+    public float m_Deccel;
+    public Vector3 m_DisplacementDirection;
 
-    private int m_DistanceCase=1;
+    public float m_ClampRotMax;
+    public float m_AccelRot;
+    public float m_ClampRotMin;
 
-    public enum Direction
-    {
-        Stop,
-        Up,
-        Down,
-        Left,
-        Right
-    }
+    public float m_CurrentSpeed = 0.0f;
+    public float m_CurrentRotation = 0.0f;
 
-    
-    //Can go
-    public bool m_CanGoUp = true;
-    public bool m_CanGoDown = true;
-    public bool m_CanGoLeft = true;
-    public bool m_CanGoRight = true;
-    
+    //Rotating speed
+    public float m_RotateSpeed;
 
     //Imput
-    public bool m_IsStarted;
+    private bool m_isInputDetected = true;
+    private bool m_UpImput;
+    private bool m_DownImput;
+    private bool m_LeftImput;
+    private bool m_RightImput;
 
-    public Direction m_Direction;
-    public Direction m_MovingDirection;
+    //Movement State
+    public bool m_IsRotatingLeft;
+    public bool m_IsRotatingRight;
 
-    //Destination Vector
-    public Vector3 m_Aim;
-    public bool m_IsMoving=false;
-
-	//Animator
-	Animator m_Animator;
-
-    //Slide Lerp
-    private Vector3 m_StartMarker = new Vector3();
-    private Vector3 m_EndMarker = new Vector3();
-    private float m_SpeedLerp = 5;
-    private float m_StartTime;
-    private float m_JourneyLength;
-
-
+    //Animation
+    Animator m_Animator;
 
     // Use this for initialization
-    void Start () 
-	{
-        m_Player = GetComponent<Player>();
-
-		m_Animator = GetComponent<Animator>();
-
-		m_Rigidbody = GetComponent<Rigidbody>();
-
-		InitializeInput();
-
-        m_Aim = transform.position;
-        transform.position = Vector3.zero;
-
-    }
-
-	void InitializeInput()
-	{
-		m_IsStarted = false;
-        m_Direction = Direction.Stop;
-        m_MovingDirection = Direction.Stop;
-        transform.position = Vector3.zero;
-    }
-
-	void InputDetection()
-	{
-        #region old
-
-        if ((Input.GetAxis("L_XAxis_" + m_Player.m_PlayerNumber.ToString()) < 0) && m_CanGoLeft)
-        {
-            m_Direction = Direction.Left;
-            StartLerpPlayer();
-            
-        }
-        if ((Input.GetAxis("L_XAxis_" + m_Player.m_PlayerNumber.ToString()) > 0) && m_CanGoRight)
-        {
-            m_Direction = Direction.Right;
-            StartLerpPlayer();
-          
-        }
-
-        if ((Input.GetAxis("L_YAxis_" + m_Player.m_PlayerNumber.ToString()) < 0) && m_CanGoUp)
-        {
-            m_Direction = Direction.Up;
-            StartLerpPlayer();
-        }
-
-        if ((Input.GetAxis("L_YAxis_" + m_Player.m_PlayerNumber.ToString()) > 0) && m_CanGoDown)
-        {
-            m_Direction = Direction.Down;
-            StartLerpPlayer();
-        }
-
-        
-        #endregion
-    }
-
-    #region ChangePosition
-    public void StartLerpPlayer()
+    void Start()
     {
-        m_IsMoving = true;
 
-        m_StartTime = Time.time;
 
-        m_StartMarker = transform.position;
 
-        switch(m_Direction)
-        {
-            case Direction.Up:
-                m_EndMarker = new Vector3(m_StartMarker.x, m_StartMarker.y, m_StartMarker.z+m_DistanceCase);
-                transform.eulerAngles = new Vector3(0, 0, 0);
-                break;
+        //<GETCOMPONENT>{
+        //Animator
+        m_Animator = GetComponent<Animator>();
+        //Get the rigidbody
+        m_Rigidbody = GetComponent<Rigidbody>();
 
-            case Direction.Down:
-                m_EndMarker = new Vector3(m_StartMarker.x, m_StartMarker.y, m_StartMarker.z - m_DistanceCase);
-                transform.eulerAngles = new Vector3(0, 180, 0);
-                break;
 
-            case Direction.Left:
-                m_EndMarker = new Vector3(m_StartMarker.x - m_DistanceCase, m_StartMarker.y, m_StartMarker.z);
-                transform.eulerAngles = new Vector3(0, -90, 0);
-                break;
 
-            case Direction.Right:
-                m_EndMarker = new Vector3(m_StartMarker.x + m_DistanceCase, m_StartMarker.y, m_StartMarker.z);
-                transform.eulerAngles = new Vector3(0, 90, 0);
-                break;
-        }
+        m_DisplacementDirection = transform.forward;
 
-        
+        m_PlayerId = GetComponent<Player>().m_PlayerId;
 
-        m_JourneyLength = Vector3.Distance(m_StartMarker, m_EndMarker);
-
-        StartCoroutine(LerpPlayer());
+        InitializeInput();
     }
 
-    IEnumerator LerpPlayer()
+    void InitializeInput()
     {
-        while (transform.position != m_EndMarker)
-        {
-            float distCovered = (Time.time - m_StartTime) * m_SpeedLerp;
-            float fracJourney = distCovered / m_JourneyLength;
-            transform.position = Vector3.Lerp(m_StartMarker, m_EndMarker, fracJourney);
-
-            yield return new WaitForEndOfFrame();
-        }
-        m_Direction = Direction.Stop;
-        m_IsMoving = false;
+        m_UpImput = false;
+        m_DownImput = false;
+        m_LeftImput = false;
+        m_RightImput = false;
     }
-    #endregion
 
+
+   /*
+    public void Vibrate()
+    {
+        GetComponent<Vibrations>().SetVibration(true, 0.2f);
+        Invoke("StopVibration", 0.2f);
+    }
+    */
+
+    void InputDetection()
+    {
+
+        if (m_isInputDetected)
+        {
+
+            #region Gamepad
+            if (Input.GetAxis("L_XAxis_"+m_PlayerId.ToString()) < 0)
+            {
+                m_LeftImput = true;
+            }
+            else
+            {
+                m_LeftImput = false;
+
+            }
+            if (Input.GetAxis("L_XAxis_" + m_PlayerId.ToString()) > 0)
+            {
+                m_RightImput = true;
+
+            }
+            else
+            {
+                m_RightImput = false;
+            }
+            if (Input.GetAxis("L_YAxis_" + m_PlayerId.ToString()) < 0)
+            {
+                m_UpImput = true;
+            }
+            else
+            {
+                m_UpImput = false;
+            }
+            if (Input.GetAxis("L_YAxis_" + m_PlayerId.ToString()) > 0)
+            {
+                m_DownImput = true;
+            }
+            else
+            {
+                m_DownImput = false;
+            }
+            #endregion
+
+            #region Keyboard
+            /*
+            #region Keyboard
+            if (Input.GetKey("up") || Input.GetKey(KeyCode.Z))
+            {
+                m_UpImput = true;
+                if (m_IsUsingGamePad == true)
+                {
+                    m_IsUsingGamePad = false;
+                }
+            }
+            if (Input.GetKeyUp("up") && Input.GetKeyUp(KeyCode.Z))
+            {
+                m_UpImput = false;
+            }
+
+            if (Input.GetKey("down") || Input.GetKey(KeyCode.S))
+            {
+                m_DownImput = true;
+                if (m_IsUsingGamePad == true)
+                {
+                    m_IsUsingGamePad = false;
+                }
+            }
+            if (Input.GetKeyUp("down") && Input.GetKeyUp(KeyCode.S))
+            {
+                m_DownImput = false;
+            }
+            if (Input.GetKey("left") || Input.GetKey(KeyCode.Q))
+            {
+                m_LeftImput = true;
+                if (m_IsUsingGamePad == true)
+                {
+                    m_IsUsingGamePad = false;
+                }
+            }
+            if (Input.GetKeyUp("left") && Input.GetKeyUp(KeyCode.Q))
+            {
+                m_LeftImput = false;
+            }
+
+            if (Input.GetKey("right") || Input.GetKey(KeyCode.D))
+            {
+                m_RightImput = true;
+                if (m_IsUsingGamePad == true)
+                {
+                    m_IsUsingGamePad = false;
+                }
+            }
+            if (Input.GetKeyUp("right") && Input.GetKeyUp(KeyCode.D))
+            {
+                m_RightImput = false;
+            }
+            #endregion
+            */
+            #endregion
+
+        }
+    }
+
+    void RotateTheMower()
+    {
+
+
+        /*m_Rigidbody.angularVelocity = Vector3.zero;
+        if (m_LeftImput ^ m_RightImput)
+        {
+
+                if (m_LeftImput && !m_RightImput)
+                {
+                    //Rotate Left
+                    transform.Rotate(Vector3.down, m_RotateSpeed * Time.deltaTime);
+
+                    m_IsRotatingLeft = true;
+                    m_IsRotatingRight = false;
+
+                }
+
+                if (!m_LeftImput && m_RightImput)
+                {
+                    //Rotate Right
+                    transform.Rotate(Vector3.up, m_RotateSpeed * Time.deltaTime);
+
+                    m_IsRotatingLeft = false;
+                    m_IsRotatingRight = true;
+
+                }
+            }
+
+        */
+    }
 
     void Update()
-	{
-        /*
-        //CheckForObstacle();
-        Displacement();
-        m_MovingDirection = Direction.Stop;
-        Debug.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y, transform.position.z+1), Color.red);
-        */
-
-        if(m_IsMoving==false)
-        {
-            CheckForObstacle();
-            InputDetection();
-        }
-
-    }
-
-    void CheckForObstacle()
     {
-        RaycastHit hit;
+        //QuickFix de la position en Y
+        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+        //////Code QTE demarrage Tondeuse
 
-        if (Physics.Raycast(transform.position, Vector3.forward, out hit, 1))
-        {
-            m_CanGoUp = false;   
+            InputDetection();
 
-            /*
-            if (m_MovingDirection == Direction.Up)
-            {
-                m_MovingDirection = Direction.Stop;
-            }*/
-        }
-        else
-        {
-            m_CanGoUp = true;
-        }
+            //Set the rotation
+            RotateTheMower();
 
-        if (Physics.Raycast(transform.position, Vector3.back, out hit, 1))
-        {
-            /*
-            if (m_MovingDirection == Direction.Down)
-            {
-                m_MovingDirection = Direction.Stop;
-            }*/
-            m_CanGoDown = false;
-        }
-        else
-        {
-            m_CanGoDown = true;
-        }
+        //Move the mower
 
-        if (Physics.Raycast(transform.position, Vector3.left, out hit, 1))
-        {
-            /*
-            if (m_MovingDirection == Direction.Left)
-            {
-                m_MovingDirection = Direction.Stop;
-            }*/
-            m_CanGoLeft = false;
-        }
-        else
-        {
-            m_CanGoLeft = true;
-        }
 
-        if (Physics.Raycast(transform.position, Vector3.right, out hit, 1))
-        {
-            /*
-            if (m_MovingDirection == Direction.Right)
-            {
-                m_MovingDirection = Direction.Stop;
-            }
-            */
-            m_CanGoRight = false;
-        }
-        else
-        {
-            m_CanGoRight = true;
-        }
+        Vector3 Direction = Vector3.zero;
 
+        Direction += Vector3.back * Input.GetAxis("L_YAxis_" + m_PlayerId.ToString());
+        Direction += Vector3.right * Input.GetAxis("L_XAxis_" + m_PlayerId.ToString());
+
+
+
+        m_CurrentSpeed += Time.deltaTime * m_Accel;
+
+        m_Rigidbody.velocity = Direction * m_CurrentSpeed;
+
+
+        m_CurrentSpeed = Mathf.Clamp(m_CurrentSpeed, m_MinSpeed, m_MaxSpeed);
+        //}
+        
     }
 
-
-   
+    
 }
 
 /* BUTTON

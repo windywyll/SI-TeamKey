@@ -5,12 +5,12 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
 
-	public int m_PlayerNumber;
+	public int m_PlayerId;
 
 	// Use this for initialization
 	void Start ()
     {
-        switch(m_PlayerNumber)
+        switch(m_PlayerId)
         {
             case 1:
                 name = "Player Red";
