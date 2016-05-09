@@ -185,8 +185,23 @@ public class PlayerMove : MonoBehaviour {
         }
     }
 
-    void RotateTheMower()
+    void Rotate()
     {
+
+        if ((Input.GetAxis("R_XAxis_1") != 0) || (Input.GetAxis("R_YAxis_1") != 0))
+        {
+            Vector3 rotatePos = new Vector3((Input.GetAxis("R_XAxis_1")), (Input.GetAxis("R_YAxis_1")) * -1, 0);
+            rotatePos.z = 0;
+            //rotatePos.z = 5.23f;
+            /*
+             Vector3 objectPos = Camera.main.WorldToScreenPoint(transform.position);
+             mousePos.x = mousePos.x - objectPos.x;
+             mousePos.y = mousePos.y - objectPos.y;
+             */
+            float angle = Mathf.Atan2(rotatePos.y, rotatePos.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(new Vector3(0, -(angle-90), 0 ));
+            // last_mousePos = mousePos;
+        }
 
 
         /*m_Rigidbody.angularVelocity = Vector3.zero;
@@ -226,7 +241,7 @@ public class PlayerMove : MonoBehaviour {
             InputDetection();
 
             //Set the rotation
-            RotateTheMower();
+            Rotate();
 
         //Move the mower
 
@@ -236,7 +251,7 @@ public class PlayerMove : MonoBehaviour {
         Direction += Vector3.back * Input.GetAxis("L_YAxis_" + m_PlayerId.ToString());
         Direction += Vector3.right * Input.GetAxis("L_XAxis_" + m_PlayerId.ToString());
 
-
+        Direction = new Vector3(Mathf.Clamp(Direction.x, -1, 1), Mathf.Clamp(Direction.y, -1, 1), Mathf.Clamp(Direction.z, -1, 1));
 
         m_CurrentSpeed += Time.deltaTime * m_Accel;
 
