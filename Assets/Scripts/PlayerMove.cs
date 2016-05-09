@@ -18,17 +18,13 @@ public class PlayerMove : MonoBehaviour {
     public float m_MinSpeed;
     public float m_Accel;
     public float m_Deccel;
-    public Vector3 m_DisplacementDirection;
+    public Vector3 m_Direction = Vector3.zero;
 
     public float m_ClampRotMax;
     public float m_AccelRot;
     public float m_ClampRotMin;
 
     public float m_CurrentSpeed = 0.0f;
-    public float m_CurrentRotation = 0.0f;
-
-    //Rotating speed
-    public float m_RotateSpeed;
 
     //Imput
     private bool m_isInputDetected = true;
@@ -36,10 +32,6 @@ public class PlayerMove : MonoBehaviour {
     private bool m_DownImput;
     private bool m_LeftImput;
     private bool m_RightImput;
-
-    //Movement State
-    public bool m_IsRotatingLeft;
-    public bool m_IsRotatingRight;
 
     //Animation
     Animator m_Animator;
@@ -55,10 +47,6 @@ public class PlayerMove : MonoBehaviour {
         m_Animator = GetComponent<Animator>();
         //Get the rigidbody
         m_Rigidbody = GetComponent<Rigidbody>();
-
-
-
-        m_DisplacementDirection = transform.forward;
 
         m_PlayerId = GetComponent<Player>().m_PlayerId;
 
@@ -246,17 +234,16 @@ public class PlayerMove : MonoBehaviour {
         //Move the mower
 
 
-        Vector3 Direction = Vector3.zero;
 
-        Direction += Vector3.back * Input.GetAxis("L_YAxis_" + m_PlayerId.ToString());
-        Direction += Vector3.right * Input.GetAxis("L_XAxis_" + m_PlayerId.ToString());
+        m_Direction = Vector3.zero;
+        m_Direction += Vector3.back * Input.GetAxis("L_YAxis_" + m_PlayerId.ToString()) ;
+        m_Direction += Vector3.right * Input.GetAxis("L_XAxis_" + m_PlayerId.ToString());
 
-        Direction = new Vector3(Mathf.Clamp(Direction.x, -1, 1), Mathf.Clamp(Direction.y, -1, 1), Mathf.Clamp(Direction.z, -1, 1));
+        m_Direction.Normalize();
 
         m_CurrentSpeed += Time.deltaTime * m_Accel;
 
-        m_Rigidbody.velocity = Direction * m_CurrentSpeed;
-
+        m_Rigidbody.velocity = m_Direction * m_CurrentSpeed;
 
         m_CurrentSpeed = Mathf.Clamp(m_CurrentSpeed, m_MinSpeed, m_MaxSpeed);
         //}
