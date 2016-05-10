@@ -29,7 +29,7 @@ public class CameraMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        m_speed = m_players[0].GetComponent<PlayerMove>().m_BaseSpeed;
+        m_speed = m_players[0].GetComponent<PlayerMove>().getCurrentSpeed();
         m_exitRight = false;
         m_exitLeft = false;
         m_exitDown = false;
