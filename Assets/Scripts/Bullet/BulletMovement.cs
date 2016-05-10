@@ -19,6 +19,11 @@ public class BulletMovement : MonoBehaviour {
         startDeathCountdown = Time.time;
     }
 
+    public void SetDamages( int _damages)
+    {
+        m_damage = _damages;
+    }
+
     void Update()
     {
         if (startDeathCountdown + m_lifeSpan < Time.time)
