@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 9263f8f4b367b234aabd1108a1067fb7
-timeCreated: 1462813264
+guid: f53ae3008e6045840a3a4ca4d41f7f08
+timeCreated: 1462868951
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: GeoSphere001
+    4300000: Sheep
   materials:
     importMaterials: 1
     materialName: 0
