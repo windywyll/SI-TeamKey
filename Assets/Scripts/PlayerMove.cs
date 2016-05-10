@@ -13,16 +13,12 @@ public class PlayerMove : MonoBehaviour {
     private int m_PlayerId;
 
     // Displacement
-    public float m_BaseSpeed;
+    private float m_BaseSpeed;
     public float m_MaxSpeed;
-    public float m_MinSpeed;
+    private float m_MinSpeed;
     public float m_Accel;
     public float m_Deccel;
-    public Vector3 m_Direction = Vector3.zero;
-
-    public float m_ClampRotMax;
-    public float m_AccelRot;
-    public float m_ClampRotMin;
+    private Vector3 m_Direction = Vector3.zero;
 
     public float m_CurrentSpeed = 0.0f;
 
@@ -39,8 +35,6 @@ public class PlayerMove : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-
-
 
         //<GETCOMPONENT>{
         //Animator
@@ -241,7 +235,14 @@ public class PlayerMove : MonoBehaviour {
 
         m_Direction.Normalize();
 
-        m_CurrentSpeed += Time.deltaTime * m_Accel;
+        if(m_UpImput || m_DownImput || m_RightImput || m_LeftImput)
+        {
+            m_CurrentSpeed += Time.deltaTime * m_Accel;
+        }
+        if (!m_UpImput && !m_DownImput && !m_RightImput && !m_LeftImput)
+        {
+            m_CurrentSpeed -= Time.deltaTime * m_Deccel;
+        }
 
         m_Rigidbody.velocity = m_Direction * m_CurrentSpeed;
 
