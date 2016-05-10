@@ -77,7 +77,6 @@ public class PlayerGun : MonoBehaviour {
             {
                 while (m_IsShooting)
                 {
-               
                     Shoot();
                     yield return new WaitForSeconds(m_ShootCooldownDelay);
                 }
@@ -89,13 +88,18 @@ public class PlayerGun : MonoBehaviour {
 
     void Shoot()
     {
-        GameObject _bullet = Instantiate(m_Bullet,  m_Canon.transform.position, transform.rotation) as GameObject;
-        _bullet.transform.eulerAngles = new Vector3(_bullet.transform.eulerAngles.x, _bullet.transform.eulerAngles.y + Random.Range(-m_OffsetBalistic, m_OffsetBalistic), _bullet.transform.eulerAngles.z);
+        if (m_Ammo > 0)
+        {
+            m_Ammo--;
+            GameObject _bullet = Instantiate(m_Bullet, m_Canon.transform.position, transform.rotation) as GameObject;
+            _bullet.GetComponent<BulletMovement>().SetDamages(m_Damages);
+            _bullet.transform.eulerAngles = new Vector3(_bullet.transform.eulerAngles.x, _bullet.transform.eulerAngles.y + Random.Range(-m_OffsetBalistic, m_OffsetBalistic), _bullet.transform.eulerAngles.z);
+        }
     }
 
     IEnumerator Reload()
     {
-        if (m_Ammo == m_MaxAmmo)
+        if (m_Ammo != m_MaxAmmo)
         {
             if (m_IsReloading == false)
             {
