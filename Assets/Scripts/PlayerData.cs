@@ -1,5 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
+public enum DataType
+{
+    DamagesTotal,
+    DamagesTaken,
+    BulletsLaunched,
+    BulletsTouched,
+    Accuracy,
+    DeathNumber,
+    Meters,
+    Dash,
+    PlayersRez
+}
+
 
 public class PlayerData : MonoBehaviour {
 
@@ -9,13 +24,17 @@ public class PlayerData : MonoBehaviour {
     public int m_DamagesTaken;
     public int m_BulletsLaunched;
     public int m_BulletsTouched;
-    public float m_Accuracy;
+    public int m_Accuracy;
     public int m_PlayersRez;
     public int m_DeathNumber;
-    public float m_Meters;
+    public int m_Meters;
     public int m_Dash;
 
-    bool m_Record = false;
+    private float meter;
+
+    bool m_Record = true;
+
+    
 
     // Use this for initialization
     void Start ()
@@ -35,47 +54,66 @@ public class PlayerData : MonoBehaviour {
 
 
     //Import
+    #region Import
     public void AddDamages(int _value)
     {
+        if(m_Record)
         m_DamagesTotal += _value;
     }
 
     public void AddDamagesTaken(int _value)
     {
-        m_DamagesTaken += _value;
+        if (m_Record)
+            m_DamagesTaken += _value;
     }
 
     public void AddBulletsLaunched()
     {
-        m_BulletsLaunched++;
+        if (m_Record)
+            m_BulletsLaunched++;
     }
 
     public void AddBulletsTouched()
     {
-        m_BulletsTouched++;
-        CalculateAccuracy();
+        if (m_Record)
+        {
+            m_BulletsTouched++;
+            CalculateAccuracy();
+        }
     }
 
     public void AddPlayerRez()
     {
-        m_PlayersRez++;
+        if (m_Record)
+            m_PlayersRez++;
     }
 
     public void AddDeath()
     {
-        m_DeathNumber++;
+        if (m_Record)
+            m_DeathNumber++;
     }
 
     public void AddMeters(float _meters)
     {
-        m_Meters += _meters;
+        if (m_Record)
+        {
+            meter += _meters;
+            if(meter>1)
+            {
+                m_Meters += (int)meter;
+                meter = 0;
+            }
+        }
+            
     }
 
     public void AddDash()
     {
-        m_Dash++;
+        if (m_Record)
+            m_Dash++;
     }
-
+    #endregion
 
     //Calcul
     void CalculateAccuracy()
@@ -83,11 +121,5 @@ public class PlayerData : MonoBehaviour {
         m_Accuracy = (m_BulletsTouched / m_BulletsLaunched)*100;
     }
 
-
-    //EndOfGame
-    void CalculWhatToShow()
-    {
-
-    }
-
+    
 }

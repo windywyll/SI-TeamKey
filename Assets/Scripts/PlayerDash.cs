@@ -17,6 +17,8 @@ public class PlayerDash : MonoBehaviour {
 
     public float m_DashSpeed = 8;
 
+
+
     // Use this for initialization
     void Start ()
     {
