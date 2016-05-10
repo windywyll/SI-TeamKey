@@ -3,34 +3,89 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class CameraMovement : MonoBehaviour {
-
+    
+    private float m_speed;
     [SerializeField]
-    private float maxX_Right;
+    private float m_maxX_Right;
     [SerializeField]
-    private float maxX_Left;
+    private float m_maxX_Left;
+    [SerializeField]
+    private float m_max_Height;
+    private float m_min_Height;
 
+    Camera m_mainCam;
     private List<GameObject> m_players;
     private Vector3 barycenter;
+
+    private bool m_exitLeft, m_exitRight, m_exitDown, m_allInside;
 
 	// Use this for initialization
 	void Start () {
         m_players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
+        m_min_Height = transform.position.y;
+        m_mainCam = Camera.main;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        barycenter = Vector3.zero;
 
-	    for(int i = 0; i < m_players.Count; i++)
+        m_speed = m_players[0].GetComponent<PlayerMove>().m_BaseSpeed;
+        m_exitRight = false;
+        m_exitLeft = false;
+        m_exitDown = false;
+        m_allInside = true;
+
+        Vector3 viewPos;
+
+        for(int i = 0; i < m_players.Count; i++)
         {
-            barycenter += m_players[i].transform.position;
+            viewPos = m_mainCam.WorldToViewportPoint(m_players[i].transform.position);
+
+            if (viewPos.x > 0.9f)
+            {
+                m_speed = Mathf.Max(m_speed, m_players[i].GetComponent<PlayerMove>().m_CurrentSpeed);
+                m_exitRight = true;
+            }
+
+            if (viewPos.x < 0.1f)
+            {
+                m_speed = Mathf.Max(m_speed, m_players[i].GetComponent<PlayerMove>().m_CurrentSpeed);
+                m_exitLeft = true;
+            }
+
+            if (viewPos.y < 0.1f)
+            {
+                m_speed = Mathf.Max(m_speed, m_players[i].GetComponent<PlayerMove>().m_CurrentSpeed);
+                m_exitDown = true;
+            }
+
+            if (viewPos.x > 0.85f || viewPos.x < 0.15f || viewPos.y < 0.15f)
+                m_allInside = false;
         }
 
-        barycenter /= ((float) m_players.Count);
+        float moveSpeed = m_speed * Time.deltaTime;
 
-        Vector3 newPos = new Vector3(Mathf.Clamp(barycenter.x, maxX_Left, maxX_Right), transform.position.y, transform.position.z);
+        if (m_exitLeft && m_exitRight)
+        {
+            transform.Translate(new Vector3(0.0f, -moveSpeed/2, -moveSpeed));
+        }
+        else
+        {
+            if (m_exitLeft && transform.position.x > m_maxX_Left)
+                transform.Translate(new Vector3(-moveSpeed, 0.0f, 0.0f));
 
+            if(m_exitRight && transform.position.x < m_maxX_Right)
+                transform.Translate(new Vector3(moveSpeed, 0.0f, 0.0f));
+        }
 
-        this.transform.position = newPos;
-	}
+        if(m_exitDown && transform.position.y < m_max_Height)
+        {
+            transform.Translate(new Vector3(0.0f, -moveSpeed/2, -moveSpeed));
+        }
+
+        if (m_allInside && transform.position.y > m_min_Height)
+        {
+            transform.Translate(new Vector3(0.0f, moveSpeed/2, moveSpeed));
+        }
+    }
 }
