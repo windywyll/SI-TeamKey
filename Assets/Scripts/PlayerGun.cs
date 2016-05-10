@@ -24,6 +24,9 @@ public class PlayerGun : MonoBehaviour {
 
     public float m_OffsetBalistic = 0.1f;
 
+    private Vibrations m_Vibrations;
+
+    private Player m_Player;
 
     // Use this for initialization
     void Start ()
@@ -33,14 +36,24 @@ public class PlayerGun : MonoBehaviour {
 
     void Initialize()
     {
-        m_PlayerId = GetComponent<Player>().m_PlayerId;
+        m_Player = GetComponent<Player>();
+        m_PlayerId = m_Player.m_PlayerId;
+        m_Vibrations=GetComponent<Vibrations>();
         m_Ammo = m_MaxAmmo;
         StartCoroutine(ShootCooldown());
     }
 
+    public void SetCanShoot(bool _can)
+    {
+        m_CanShoot = _can;
+    }
+
     void Update()
     {
-        ShootInput();
+        if (m_Player.isDead() == false)
+        {
+            ShootInput();
+        }
     }
 	
     void ShootInput()
@@ -90,6 +103,7 @@ public class PlayerGun : MonoBehaviour {
     {
         if (m_Ammo > 0)
         {
+            m_Vibrations.ShootVibration();
             m_Ammo--;
             GameObject _bullet = Instantiate(m_Bullet, m_Canon.transform.position, transform.rotation) as GameObject;
             _bullet.GetComponent<BulletMovement>().SetDamages(m_Damages);
@@ -103,17 +117,26 @@ public class PlayerGun : MonoBehaviour {
         {
             if (m_IsReloading == false)
             {
-
+                m_Vibrations.ReloadVibration(true);
                 m_IsReloading = true;
                 float _time = m_CooldownReload;
+
+                bool _done = false;
 
                 while (_time > 0)
                 {
                     yield return new WaitForSeconds(0.1f);
                     _time -= 0.1f;
+
+                    if(_time<=0.2f && _done==false)
+                    {
+                        _done = true;
+                        m_Vibrations.ReloadVibration(false);
+                    }
                 }
 
                 m_Ammo = m_MaxAmmo;
+               
                 //UI
 
                 m_IsReloading = false;

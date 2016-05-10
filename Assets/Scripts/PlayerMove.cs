@@ -4,6 +4,8 @@ using System.Collections;
 public class PlayerMove : MonoBehaviour {
 
     //Access to the main class
+    Player m_Player;
+
 
     //Access to the Rigidbody Component
     private Rigidbody m_Rigidbody;
@@ -14,7 +16,9 @@ public class PlayerMove : MonoBehaviour {
 
     // Displacement
     private float m_BaseSpeed;
+
     public float m_MaxSpeed;
+    float m_PreviousSpeed;
     private float m_MinSpeed;
     public float m_Accel;
     public float m_Deccel;
@@ -29,6 +33,8 @@ public class PlayerMove : MonoBehaviour {
     private bool m_LeftImput;
     private bool m_RightImput;
 
+    //Dash
+
     //Animation
     Animator m_Animator;
 
@@ -41,8 +47,12 @@ public class PlayerMove : MonoBehaviour {
         m_Animator = GetComponent<Animator>();
         //Get the rigidbody
         m_Rigidbody = GetComponent<Rigidbody>();
+        //Get PLayer
+        m_Player = GetComponent<Player>();
+        //Get the ID
+        m_PlayerId = m_Player.m_PlayerId;
 
-        m_PlayerId = GetComponent<Player>().m_PlayerId;
+        m_PreviousSpeed = m_MaxSpeed;
 
         InitializeInput();
     }
@@ -216,41 +226,65 @@ public class PlayerMove : MonoBehaviour {
 
     void Update()
     {
-        //QuickFix de la position en Y
-        transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-        //////Code QTE demarrage Tondeuse
+        if (m_Player.isDead() == false)
+        {
+            //QuickFix de la position en Y
+            transform.position = new Vector3(transform.position.x, 0, transform.position.z);
+            //////Code QTE demarrage Tondeuse
+
 
             InputDetection();
 
             //Set the rotation
             Rotate();
 
-        //Move the mower
+            //Move the mower
 
 
 
-        m_Direction = Vector3.zero;
-        m_Direction += Vector3.back * Input.GetAxis("L_YAxis_" + m_PlayerId.ToString()) ;
-        m_Direction += Vector3.right * Input.GetAxis("L_XAxis_" + m_PlayerId.ToString());
+            m_Direction = Vector3.zero;
+            m_Direction += Vector3.back * Input.GetAxis("L_YAxis_" + m_PlayerId.ToString());
+            m_Direction += Vector3.right * Input.GetAxis("L_XAxis_" + m_PlayerId.ToString());
 
-        m_Direction.Normalize();
+            m_Direction.Normalize();
 
-        if(m_UpImput || m_DownImput || m_RightImput || m_LeftImput)
-        {
-            m_CurrentSpeed += Time.deltaTime * m_Accel;
+            if (m_UpImput || m_DownImput || m_RightImput || m_LeftImput)
+            {
+                m_CurrentSpeed += Time.deltaTime * m_Accel;
+            }
+            if (!m_UpImput && !m_DownImput && !m_RightImput && !m_LeftImput)
+            {
+                m_CurrentSpeed -= Time.deltaTime * m_Deccel;
+            }
+
+            m_Rigidbody.velocity = m_Direction * m_CurrentSpeed;
+
+            m_CurrentSpeed = Mathf.Clamp(m_CurrentSpeed, m_MinSpeed, m_MaxSpeed);
+            //}
         }
-        if (!m_UpImput && !m_DownImput && !m_RightImput && !m_LeftImput)
+        else
         {
-            m_CurrentSpeed -= Time.deltaTime * m_Deccel;
+            //Died
+            InitializeInput();
+            m_CurrentSpeed = 0;
+            m_Rigidbody.velocity = Vector3.zero;
+            m_MaxSpeed = m_PreviousSpeed;
         }
-
-        m_Rigidbody.velocity = m_Direction * m_CurrentSpeed;
-
-        m_CurrentSpeed = Mathf.Clamp(m_CurrentSpeed, m_MinSpeed, m_MaxSpeed);
-        //}
-        
     }
 
+    public void StartDash(float _speed, float _time)
+    {
+        StartCoroutine(Dash( _speed,  _time));
+    }
+
+    IEnumerator Dash(float _speed, float _time)
+    {
+        m_MaxSpeed = _speed;
+        m_CurrentSpeed = _speed;
+        yield return new WaitForSeconds(_time);
+        m_MaxSpeed = m_PreviousSpeed;
+        m_CurrentSpeed = m_MaxSpeed;
+    }
     
 }
 
