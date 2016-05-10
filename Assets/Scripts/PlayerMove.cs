@@ -34,7 +34,7 @@ public class PlayerMove : MonoBehaviour {
     private bool m_RightImput;
 
     //Dash
-
+    bool m_IsDashing=false;
     //Animation
     Animator m_Animator;
 
@@ -64,15 +64,6 @@ public class PlayerMove : MonoBehaviour {
         m_LeftImput = false;
         m_RightImput = false;
     }
-
-
-   /*
-    public void Vibrate()
-    {
-        GetComponent<Vibrations>().SetVibration(true, 0.2f);
-        Invoke("StopVibration", 0.2f);
-    }
-    */
 
     void InputDetection()
     {
@@ -240,13 +231,14 @@ public class PlayerMove : MonoBehaviour {
 
             //Move the mower
 
+            if (m_IsDashing == false)
+            {
+                m_Direction = Vector3.zero;
+                m_Direction += Vector3.back * Input.GetAxis("L_YAxis_" + m_PlayerId.ToString());
+                m_Direction += Vector3.right * Input.GetAxis("L_XAxis_" + m_PlayerId.ToString());
 
-
-            m_Direction = Vector3.zero;
-            m_Direction += Vector3.back * Input.GetAxis("L_YAxis_" + m_PlayerId.ToString());
-            m_Direction += Vector3.right * Input.GetAxis("L_XAxis_" + m_PlayerId.ToString());
-
-            m_Direction.Normalize();
+                m_Direction.Normalize();
+            }
 
             if (m_UpImput || m_DownImput || m_RightImput || m_LeftImput)
             {
@@ -269,6 +261,7 @@ public class PlayerMove : MonoBehaviour {
             m_CurrentSpeed = 0;
             m_Rigidbody.velocity = Vector3.zero;
             m_MaxSpeed = m_PreviousSpeed;
+            m_IsDashing = false;
         }
     }
 
@@ -279,11 +272,13 @@ public class PlayerMove : MonoBehaviour {
 
     IEnumerator Dash(float _speed, float _time)
     {
+        m_IsDashing = true;
         m_MaxSpeed = _speed;
         m_CurrentSpeed = _speed;
         yield return new WaitForSeconds(_time);
         m_MaxSpeed = m_PreviousSpeed;
-        m_CurrentSpeed = m_MaxSpeed;
+        m_CurrentSpeed = 3;
+        m_IsDashing = false;
     }
     
 }
