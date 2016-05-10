@@ -61,7 +61,11 @@ public class CameraMovement : MonoBehaviour {
 
             if (viewPos.x > 0.85f || viewPos.x < 0.15f || viewPos.y < 0.15f)
                 m_allInside = false;
+            else
+                m_speed = Mathf.Max(m_speed, m_players[i].GetComponent<PlayerMove>().m_CurrentSpeed);
         }
+
+        Debug.Log(m_speed);
 
         float moveSpeed = m_speed * Time.deltaTime;
 
