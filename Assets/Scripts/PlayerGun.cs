@@ -103,6 +103,8 @@ public class PlayerGun : MonoBehaviour {
     {
         if (m_Ammo > 0)
         {
+            GetComponent<PlayerData>().AddBulletsLaunched();
+
             m_Vibrations.ShootVibration();
             m_Ammo--;
             GameObject _bullet = Instantiate(m_Bullet, m_Canon.transform.position, transform.rotation) as GameObject;

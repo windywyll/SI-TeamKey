@@ -54,6 +54,7 @@ public class Player : MonoBehaviour {
 
     public bool isDead()
     {
+        
         return m_IsDead;
     }
 
@@ -61,6 +62,7 @@ public class Player : MonoBehaviour {
     {
         if(!m_IsDead && !m_Invicible)
         {
+            GetComponent<PlayerData>().AddDamagesTaken(_damages);
             if (m_Life - _damages >= 0)
             {
                 m_Life -= _damages;
@@ -77,6 +79,7 @@ public class Player : MonoBehaviour {
 
     void Died()
     {
+        GetComponent<PlayerData>().AddDeath();
         m_IsDead = true;
         m_Invicible = true;
     }

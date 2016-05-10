@@ -63,6 +63,8 @@ public class PlayerMove : MonoBehaviour {
         m_DownImput = false;
         m_LeftImput = false;
         m_RightImput = false;
+
+        StartCoroutine(Run());
     }
 
     void InputDetection()
@@ -171,9 +173,9 @@ public class PlayerMove : MonoBehaviour {
     void Rotate()
     {
 
-        if ((Input.GetAxis("R_XAxis_1") != 0) || (Input.GetAxis("R_YAxis_1") != 0))
+        if ((Input.GetAxis("R_XAxis_"+m_Player.m_PlayerId.ToString()) != 0) || (Input.GetAxis("R_YAxis_" + m_Player.m_PlayerId.ToString()) != 0))
         {
-            Vector3 rotatePos = new Vector3((Input.GetAxis("R_XAxis_1")), (Input.GetAxis("R_YAxis_1")) * -1, 0);
+            Vector3 rotatePos = new Vector3((Input.GetAxis("R_XAxis_" + m_Player.m_PlayerId.ToString())), (Input.GetAxis("R_YAxis_" + m_Player.m_PlayerId.ToString())) * -1, 0);
             rotatePos.z = 0;
             //rotatePos.z = 5.23f;
             /*
@@ -185,34 +187,6 @@ public class PlayerMove : MonoBehaviour {
             transform.rotation = Quaternion.Euler(new Vector3(0, -(angle-90), 0 ));
             // last_mousePos = mousePos;
         }
-
-
-        /*m_Rigidbody.angularVelocity = Vector3.zero;
-        if (m_LeftImput ^ m_RightImput)
-        {
-
-                if (m_LeftImput && !m_RightImput)
-                {
-                    //Rotate Left
-                    transform.Rotate(Vector3.down, m_RotateSpeed * Time.deltaTime);
-
-                    m_IsRotatingLeft = true;
-                    m_IsRotatingRight = false;
-
-                }
-
-                if (!m_LeftImput && m_RightImput)
-                {
-                    //Rotate Right
-                    transform.Rotate(Vector3.up, m_RotateSpeed * Time.deltaTime);
-
-                    m_IsRotatingLeft = false;
-                    m_IsRotatingRight = true;
-
-                }
-            }
-
-        */
     }
 
     void Update()
@@ -265,8 +239,21 @@ public class PlayerMove : MonoBehaviour {
         }
     }
 
+    IEnumerator Run()
+    {
+        while(true)
+        {
+            if(m_UpImput || m_DownImput || m_LeftImput || m_RightImput)
+            {
+                GetComponent<PlayerData>().AddMeters(m_CurrentSpeed/10);
+            }
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
     public void StartDash(float _speed, float _time)
     {
+        GetComponent<PlayerData>().AddDash();
         StartCoroutine(Dash( _speed,  _time));
     }
 
