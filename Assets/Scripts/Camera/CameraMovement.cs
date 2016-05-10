@@ -4,6 +4,11 @@ using System.Collections.Generic;
 
 public class CameraMovement : MonoBehaviour {
 
+    [SerializeField]
+    private float maxX_Right;
+    [SerializeField]
+    private float maxX_Left;
+
     private List<GameObject> m_players;
     private Vector3 barycenter;
 
@@ -23,10 +28,9 @@ public class CameraMovement : MonoBehaviour {
 
         barycenter /= ((float) m_players.Count);
 
-        Vector3 newPos = new Vector3(barycenter.x, transform.position.y, transform.position.z);
+        Vector3 newPos = new Vector3(Mathf.Clamp(barycenter.x, maxX_Left, maxX_Right), transform.position.y, transform.position.z);
+
 
         this.transform.position = newPos;
-
-        this.transform.LookAt(barycenter);
 	}
 }
