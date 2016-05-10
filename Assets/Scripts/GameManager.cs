@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
     public GameObject m_Player;
 
 	// Use this for initialization
-	void Start ()
+	void Awake ()
     {
         PlayerInstantiation();
 	}
