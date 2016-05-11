@@ -105,11 +105,14 @@ public class PlayerGun : MonoBehaviour {
     {
         if (m_Ammo > 0)
         {
+            GetComponent<PlayerData>().AddBulletsLaunched();
+
             m_Vibrations.ShootVibration();
             m_Ammo--;
             UIManager.instance.DecrementBullet(m_PlayerId);
             GameObject _bullet = Instantiate(m_Bullet, m_Canon.transform.position, transform.rotation) as GameObject;
             _bullet.GetComponent<BulletMovement>().SetDamages(m_Damages);
+            _bullet.GetComponent<BulletMovement>().SetCreator(gameObject);
             _bullet.transform.eulerAngles = new Vector3(_bullet.transform.eulerAngles.x, _bullet.transform.eulerAngles.y + Random.Range(-m_OffsetBalistic, m_OffsetBalistic), _bullet.transform.eulerAngles.z);
         }
     }
