@@ -34,7 +34,7 @@ public class DataSorting : MonoBehaviour {
         }
     }
    
-    SortMax(int _1, int _2, int _3, int _4)
+    void SortMax(int _1, int _2, int _3, int _4)
     {
 
     }

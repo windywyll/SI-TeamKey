@@ -38,10 +38,15 @@ public class PlayerMove : MonoBehaviour {
     //Animation
     Animator m_Animator;
 
+    public float m_InputDead=0.3f;
+
+    
+
+
+
     // Use this for initialization
     void Start()
     {
-
         //<GETCOMPONENT>{
         //Animator
         m_Animator = GetComponent<Animator>();
@@ -175,17 +180,21 @@ public class PlayerMove : MonoBehaviour {
 
         if ((Input.GetAxis("R_XAxis_"+m_Player.m_PlayerId.ToString()) != 0) || (Input.GetAxis("R_YAxis_" + m_Player.m_PlayerId.ToString()) != 0))
         {
-            Vector3 rotatePos = new Vector3((Input.GetAxis("R_XAxis_" + m_Player.m_PlayerId.ToString())), (Input.GetAxis("R_YAxis_" + m_Player.m_PlayerId.ToString())) * -1, 0);
-            rotatePos.z = 0;
-            //rotatePos.z = 5.23f;
-            /*
-             Vector3 objectPos = Camera.main.WorldToScreenPoint(transform.position);
-             mousePos.x = mousePos.x - objectPos.x;
-             mousePos.y = mousePos.y - objectPos.y;
-             */
-            float angle = Mathf.Atan2(rotatePos.y, rotatePos.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(new Vector3(0, -(angle-90), 0 ));
-            // last_mousePos = mousePos;
+            Vector2 output = new Vector2((Input.GetAxis("R_XAxis_" + m_Player.m_PlayerId.ToString())), (Input.GetAxis("R_YAxis_" + m_Player.m_PlayerId.ToString())));
+            if (output.magnitude > m_InputDead)
+            {
+                Vector3 rotatePos = new Vector3((Input.GetAxis("R_XAxis_" + m_Player.m_PlayerId.ToString())), (Input.GetAxis("R_YAxis_" + m_Player.m_PlayerId.ToString())) * -1, 0);
+                rotatePos.z = 0;
+                //rotatePos.z = 5.23f;
+                /*
+                 Vector3 objectPos = Camera.main.WorldToScreenPoint(transform.position);
+                 mousePos.x = mousePos.x - objectPos.x;
+                 mousePos.y = mousePos.y - objectPos.y;
+                 */
+                float angle = Mathf.Atan2(rotatePos.y, rotatePos.x) * Mathf.Rad2Deg;
+                transform.rotation = Quaternion.Euler(new Vector3(0, -(angle - 90), 0));
+                // last_mousePos = mousePos;
+            }
         }
     }
 
@@ -213,6 +222,17 @@ public class PlayerMove : MonoBehaviour {
 
                 m_Direction.Normalize();
             }
+            else
+            {
+                if (!m_UpImput && !m_DownImput && !m_RightImput && !m_LeftImput)
+                {
+                    m_Direction += transform.forward;
+                    m_Direction.Normalize();
+                }
+            }
+
+
+
 
             if (m_UpImput || m_DownImput || m_RightImput || m_LeftImput)
             {
@@ -262,6 +282,7 @@ public class PlayerMove : MonoBehaviour {
         m_IsDashing = true;
         m_MaxSpeed = _speed;
         m_CurrentSpeed = _speed;
+
         yield return new WaitForSeconds(_time);
         m_MaxSpeed = m_PreviousSpeed;
         m_CurrentSpeed = 3;

@@ -91,4 +91,12 @@ public class Player : MonoBehaviour {
         m_Invicible = false;
     }
 
+    void Update()
+    {
+        if (Input.GetButtonDown("Back_" + m_PlayerId.ToString()))
+        {
+            Died();
+        }
+    }
+
 }
