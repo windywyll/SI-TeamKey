@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
+using System;
 
-public class MotherWolfObjectRain : MotherWolfAttack {
-
+public class MotherWolfMotorAttack : MotherWolfAttack {
+    
     // Use this for initialization
     void Start () {
 	
@@ -21,7 +21,6 @@ public class MotherWolfObjectRain : MotherWolfAttack {
 
     protected override void selectTarget()
     {
-
     }
 
     protected override void aim()
@@ -30,6 +29,7 @@ public class MotherWolfObjectRain : MotherWolfAttack {
 
     protected override void attack()
     {
-        Debug.Log("Huhuhu");
+        Debug.Log("Moot Moot");
     }
+    
 }
