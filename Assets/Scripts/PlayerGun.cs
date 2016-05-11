@@ -107,6 +107,7 @@ public class PlayerGun : MonoBehaviour {
         {
             m_Vibrations.ShootVibration();
             m_Ammo--;
+            // Manages the UI bullets.
             UIManager.instance.DecrementBullet(m_PlayerId);
             GameObject _bullet = Instantiate(m_Bullet, m_Canon.transform.position, transform.rotation) as GameObject;
             _bullet.GetComponent<BulletMovement>().SetDamages(m_Damages);
@@ -136,6 +137,7 @@ public class PlayerGun : MonoBehaviour {
                     {
                         _done = true;
                         m_Vibrations.ReloadVibration(false);
+                        // Manages the reload UI.
                         UIManager.instance.ReloadBullets(m_PlayerId);
                     }
                 }

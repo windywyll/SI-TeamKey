@@ -34,7 +34,14 @@ public class UIManager : MonoBehaviour {
         {
             m_PlayerUIArray[_playerId - 1].ReloadBullets(_playerId);
         }
+    }
 
+    public void LifeManager(int _playerId, float _currentLife, float _newLife)
+    {
+        if (_playerId > 0)
+        {
+            m_PlayerUIArray[_playerId - 1].LifeManager(_playerId, _currentLife, _newLife);
+        }
     }
 
 

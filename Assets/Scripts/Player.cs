@@ -22,6 +22,7 @@ public class Player : MonoBehaviour {
         m_IsDead = false;
         m_Invicible = false;
         Rename();
+
 	}
 
     void Rename()
@@ -63,7 +64,9 @@ public class Player : MonoBehaviour {
         {
             if (m_Life - _damages >= 0)
             {
+                float _startLife = m_Life;
                 m_Life -= _damages;
+                UIManager.instance.LifeManager(m_PlayerId, _startLife, m_Life);
                 StartCoroutine(Invincible());
             }
             else
@@ -73,6 +76,28 @@ public class Player : MonoBehaviour {
             }
         }
         
+    }
+
+
+    public void Heal(int _damages)
+    {
+        if (!m_IsDead && !m_Invicible)
+        {
+            if (m_Life - _damages >= 0)
+            {
+                float _startLife = m_Life;
+                m_Life += _damages;
+                // Manages the lifeBar.
+                UIManager.instance.LifeManager(m_PlayerId, _startLife, m_Life);
+                StartCoroutine(Invincible());
+            }
+            else
+            {
+                m_Life = 0;
+                Died();
+            }
+        }
+
     }
 
     void Died()
