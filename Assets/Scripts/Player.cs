@@ -9,6 +9,8 @@ public class Player : MonoBehaviour {
     int m_PlayerNumber;
     const int m_MAXLIFE=100;
     int m_Life;
+
+     [SerializeField]
     bool m_IsDead;
     bool m_Invicible;
 
@@ -30,11 +32,9 @@ public class Player : MonoBehaviour {
         ChangeCollider(true);
         Rename();
 
-        //UIManager.instance.m_PlayerUIArray[m_PlayerId - 1] = GetComponent<PlayerUI>();
-
-
         m_Arrow.color = m_ColorPlayer[m_PlayerId-1];
-	}
+        gameObject.layer = 8;
+    }
 
     void Rename()
     {
