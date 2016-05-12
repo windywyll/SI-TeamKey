@@ -16,6 +16,7 @@ public class MotherWolfMotorAttack : MotherWolfAttack {
 
     public override void launchAttackSequence(MotherWolfMovement movement)
     {
+        m_hasEnded = false;
         attack();
     }
 
@@ -29,6 +30,7 @@ public class MotherWolfMotorAttack : MotherWolfAttack {
 
     protected override void attack()
     {
+        m_hasEnded = true;
         Debug.Log("Moot Moot");
     }
     

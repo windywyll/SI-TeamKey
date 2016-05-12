@@ -16,6 +16,7 @@ public class MotherWolfObjectRain : MotherWolfAttack {
 
     public override void launchAttackSequence(MotherWolfMovement movement)
     {
+        m_hasEnded = false;
         attack();
     }
 
@@ -30,6 +31,7 @@ public class MotherWolfObjectRain : MotherWolfAttack {
 
     protected override void attack()
     {
+        m_hasEnded = true;
         Debug.Log("Huhuhu");
     }
 }

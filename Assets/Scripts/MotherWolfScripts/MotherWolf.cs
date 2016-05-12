@@ -5,14 +5,15 @@ using System.Collections.Generic;
 public class MotherWolf : MonoBehaviour {
 
     bool m_vulnerable;
-    bool m_isMelee;
+    bool m_isRocket;
     bool m_isMotorInZone;
+    bool m_attackEnded;
     MotherWolfMovement m_movement;
     [SerializeField]
     List<MotherWolfAttack> m_attacks;
     [SerializeField]
-    MotherWolfAttack m_melee;
-    int m_countRepeat, m_attackRepeated;
+    MotherWolfAttack m_rocket;
+    int m_countRepeat, m_attackRepeated, m_attackSelected;
     List<GameObject> m_players;
 
     private float m_startAttack;
@@ -23,7 +24,7 @@ public class MotherWolf : MonoBehaviour {
 	void Start () {
         m_movement = gameObject.GetComponent<MotherWolfMovement>();
         m_startAttack = Time.time;
-        m_isMelee = true;
+        m_isRocket = true;
         m_isMotorInZone = false;
         m_countRepeat = 0;
         m_attackRepeated = -1;
@@ -38,6 +39,9 @@ public class MotherWolf : MonoBehaviour {
         {
             selectAttack();
         }
+
+        if (!m_attackEnded)
+            checkIfAttackEnded();
 	}
 
     public bool isVulnerable()
@@ -47,10 +51,11 @@ public class MotherWolf : MonoBehaviour {
 
     void selectAttack()
     {
-        m_startAttack = Time.time;
-        if (m_isMelee)
+        m_attackEnded = false;
+
+        if (m_isRocket)
         {
-            meleeAttack();
+            rocketAttack();
         }
         else
         {
@@ -58,27 +63,34 @@ public class MotherWolf : MonoBehaviour {
         }
     }
 
-    void meleeAttack()
+    void rocketAttack()
     {
-        if (m_countRepeat < m_melee.getMinRepeat())
+        m_rocket.launchAttackSequence(m_movement);
+        m_isRocket = false;
+        m_countRepeat = 0;
+    }
+
+    /*void meleeAttack()
+    {
+        if (m_countRepeat < m_rocket.getMinRepeat())
         {
-            m_melee.launchAttackSequence(m_movement);
+            m_rocket.launchAttackSequence(m_movement);
             m_countRepeat++;
         }
         else
         {
-            if (m_countRepeat < m_melee.getMaxRepeat() && Random.Range(0,100) < m_melee.getPercentRepeat())
+            if (m_countRepeat < m_rocket.getMaxRepeat() && Random.Range(0,100) < m_rocket.getPercentRepeat())
             {
-                m_melee.launchAttackSequence(m_movement);
+                m_rocket.launchAttackSequence(m_movement);
                 m_countRepeat++;
             }
             else
             {
                 m_countRepeat = 0;
-                m_isMelee = false;
+                m_isRocket = false;
             }
         }
-    }
+    }*/
 
     void otherAttack()
     {
@@ -93,6 +105,7 @@ public class MotherWolf : MonoBehaviour {
                 if (randomAttack <= countPercentage)
                 {
                     m_attacks[i].launchAttackSequence(m_movement);
+                    m_attackSelected = i;
 
                     if(m_attacks[i].isRepeatable())
                     {
@@ -101,7 +114,7 @@ public class MotherWolf : MonoBehaviour {
                     }
                     else
                     {
-                        m_isMelee = true;
+                        m_isRocket = true;
                         m_countRepeat = 0;
                         m_attackRepeated = -1;
                     }
@@ -133,8 +146,19 @@ public class MotherWolf : MonoBehaviour {
             {
                 m_countRepeat = 0;
                 m_attackRepeated = -1;
-                m_isMelee = true;
+                m_isRocket = true;
             }
         }
+    }
+
+    void checkIfAttackEnded()
+    {
+        if (m_isRocket)
+            m_attackEnded = m_rocket.attackEnded();
+        else
+            m_attackEnded = m_attacks[m_attackSelected].attackEnded();
+
+        if (m_attackEnded)
+            m_startAttack = Time.time;
     }
 }

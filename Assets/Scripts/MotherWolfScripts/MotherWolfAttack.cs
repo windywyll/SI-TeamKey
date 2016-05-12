@@ -15,6 +15,7 @@ public abstract class MotherWolfAttack : MonoBehaviour {
     protected bool m_isRepeatable;
     [SerializeField]
     protected int m_minRepeat, m_maxRepeat, m_percentRepeat;
+    protected bool m_hasEnded;
 
 	// Use this for initialization
 	void Start () {
@@ -52,6 +53,11 @@ public abstract class MotherWolfAttack : MonoBehaviour {
     public bool isRepeatable()
     {
         return m_isRepeatable;
+    }
+
+    public bool attackEnded()
+    {
+        return m_hasEnded;
     }
 
     public abstract void launchAttackSequence(MotherWolfMovement movement);

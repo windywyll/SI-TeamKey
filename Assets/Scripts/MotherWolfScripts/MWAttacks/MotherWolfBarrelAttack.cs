@@ -13,11 +13,13 @@ public class MotherWolfBarrelAttack : MotherWolfAttack {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        if (m_players == null)
+            m_players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
+    }
 
     public override void launchAttackSequence(MotherWolfMovement movement)
     {
+        m_hasEnded = false;
         m_movement = movement;
 
         if (m_aimedPlayers.Count != m_players.Count - 1)
@@ -65,6 +67,7 @@ public class MotherWolfBarrelAttack : MotherWolfAttack {
 
     protected override void attack()
     {
+        m_hasEnded = true;
         //instantiate barrel
         Debug.Log("KA-BOOM");
     }
