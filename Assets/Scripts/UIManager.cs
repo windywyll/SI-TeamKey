@@ -17,8 +17,7 @@ public class UIManager : MonoBehaviour {
     }
     #endregion
 
-    [SerializeField]
-    PlayerUI[] m_PlayerUIArray = new PlayerUI[4];
+    public PlayerUI[] m_PlayerUIArray = new PlayerUI[4];
 
     [SerializeField]
     GameObject m_PlayerWorldUI;
