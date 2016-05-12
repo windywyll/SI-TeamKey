@@ -11,6 +11,9 @@ public class MotherWolfRocketAttack : MotherWolfAttack {
     [SerializeField]
     Transform m_launcher;
     int m_numRocketLaunched;
+    [SerializeField]
+    float m_delayBetweenFire;
+    float m_startDelay;
     bool m_startLaunchRockets;
 
     // Use this for initialization
@@ -22,7 +25,7 @@ public class MotherWolfRocketAttack : MotherWolfAttack {
         if (m_players == null)
             m_players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
 
-        if (m_startLaunchRockets)
+        if (m_startLaunchRockets && m_startDelay + m_delayBetweenFire < Time.time)
             selectTarget();
 	}
 
@@ -35,6 +38,7 @@ public class MotherWolfRocketAttack : MotherWolfAttack {
 
     protected override void selectTarget()
     {
+        m_startDelay = Time.time;
         m_target = m_players[Random.Range(0, m_players.Count)];
         aim();
     }
@@ -50,6 +54,7 @@ public class MotherWolfRocketAttack : MotherWolfAttack {
         rock.transform.position = m_launcher.position;
         rock.transform.LookAt(down);
         rock.GetComponent<Rocket>().setTarget(m_target.transform);
+        rock.GetComponent<Rocket>().setDamage(m_damage);
 
         m_numRocketLaunched++;
 
@@ -63,7 +68,5 @@ public class MotherWolfRocketAttack : MotherWolfAttack {
             m_startLaunchRockets = false;
             m_hasEnded = true;
         }
-
-        Debug.Log("Pew Pew Pew");
     }
 }

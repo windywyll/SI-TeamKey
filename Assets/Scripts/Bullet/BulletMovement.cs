@@ -8,7 +8,7 @@ public class BulletMovement : MonoBehaviour {
     [SerializeField]
     private float m_speed = 40f;
 
-    private float m_damage;
+    private int m_damage;
     private float startDeathCountdown;
     private GameObject m_creator;
 
@@ -35,8 +35,13 @@ public class BulletMovement : MonoBehaviour {
         transform.position = transform.position + transform.forward * Time.fixedDeltaTime * m_speed;
     }
 
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collider col)
     {
         Destroy(gameObject);
+        if (col.transform.root.tag == "Rocket")
+            col.transform.root.GetComponent<Rocket>().getHit(m_damage);
+
+        if (col.transform.root.tag == "MotherWolf")
+            col.transform.root.GetComponent<MotherWolf>().getHit(m_damage);
     }
 }

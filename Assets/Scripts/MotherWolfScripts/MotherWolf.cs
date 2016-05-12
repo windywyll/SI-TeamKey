@@ -8,11 +8,15 @@ public class MotherWolf : MonoBehaviour {
     bool m_isRocket;
     bool m_isMotorInZone;
     bool m_attackEnded;
+    bool m_isDead;
     MotherWolfMovement m_movement;
     [SerializeField]
     List<MotherWolfAttack> m_attacks;
     [SerializeField]
     MotherWolfAttack m_rocket;
+    [SerializeField]
+    int m_lifeMax;
+    int m_life;
     int m_countRepeat, m_attackRepeated, m_attackSelected;
     List<GameObject> m_players;
 
@@ -28,25 +32,42 @@ public class MotherWolf : MonoBehaviour {
         m_isMotorInZone = false;
         m_countRepeat = 0;
         m_attackRepeated = -1;
+        m_life = m_lifeMax;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if(m_players == null)
-            m_players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
-
-        if (m_startAttack + m_attackCooldown < Time.time)
+        if (!m_isDead)
         {
-            selectAttack();
-        }
+            if (m_players == null)
+                m_players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
 
-        if (!m_attackEnded)
-            checkIfAttackEnded();
+            if (m_startAttack + m_attackCooldown < Time.time)
+            {
+                selectAttack();
+            }
+
+            if (!m_attackEnded)
+                checkIfAttackEnded();
+        }
 	}
+
+    public bool isDead()
+    {
+        return m_isDead;
+    }
 
     public bool isVulnerable()
     {
         return m_vulnerable;
+    }
+
+    public void getHit(int damage)
+    {
+        m_life -= damage;
+
+        if (m_life <= 0)
+            death();
     }
 
     void selectAttack()
@@ -160,5 +181,10 @@ public class MotherWolf : MonoBehaviour {
 
         if (m_attackEnded)
             m_startAttack = Time.time;
+    }
+
+    void death()
+    {
+        m_isDead = true;
     }
 }
