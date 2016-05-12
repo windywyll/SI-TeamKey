@@ -34,7 +34,6 @@ public class PlayerReanimation : MonoBehaviour
     {
         if (Input.GetButtonDown("A_" + m_PlayerId.ToString()))
         {
-            
             if (m_Player.isDead() == false && m_IsReanimated == false)
             {
                 if (m_PlayerNear != null)

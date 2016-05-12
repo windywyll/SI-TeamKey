@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour {
 
     [SerializeField]
     GameObject m_PlayerWorldUI;
+
     PlayerWorldUI[] m_PlayerWorldUIArray = new PlayerWorldUI[4];
 
     public void AddPlayerWorldUI(int _playerId, GameObject _player)
