@@ -26,6 +26,7 @@ public class Player : MonoBehaviour {
         m_Invicible = false;
         ChangeCollider(true);
         Rename();
+        //UIManager.instance.m_PlayerUIArray[m_PlayerId - 1] = GetComponent<PlayerUI>();
 	}
 
     void Rename()
