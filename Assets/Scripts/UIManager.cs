@@ -63,6 +63,7 @@ public class UIManager : MonoBehaviour {
     {
         if (_playerId > 0)
         {
+            //Debug.Log(_playerId);
             m_PlayerUIArray[_playerId - 1].DecrementBullets(_playerId);
         }        
     }

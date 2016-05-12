@@ -6,12 +6,16 @@ public class PlayerReanimation : MonoBehaviour
 
     Player m_PlayerReanimation;
 
-    private Player m_Player;
+    public Player m_Player;
     private int m_PlayerId;
     private bool m_IsReanimated = false;
     public Player m_PlayerNear;
 
     public float m_TimeRez = 2;
+
+    private GameObject _go;
+
+    private bool m_IsColliding=false;
 
     // Use this for initialization
     void Start()
@@ -49,11 +53,9 @@ public class PlayerReanimation : MonoBehaviour
 
     void LaunchRez()
     {
-        RezPlayer();
-        /*
+
         m_IsReanimated = true;
         StartCoroutine(ReanimationCoroutine());
-        */
         
     }
 
@@ -71,7 +73,7 @@ public class PlayerReanimation : MonoBehaviour
             _time -= 0.1f;
             yield return new WaitForSeconds(0.1f);
         }
-
+        RezPlayer();
     }
 
     void RezPlayer()
@@ -80,26 +82,35 @@ public class PlayerReanimation : MonoBehaviour
         {
             m_PlayerNear.GetComponent<Player>().Rez();
             m_PlayerNear = null;
+            m_IsColliding = false;
         }
     }
 
     void OnTriggerEnter(Collider col)
     {
-        Debug.Log(col.gameObject);
-        if(col.gameObject.tag=="Player")
-        {
-           if(col.gameObject.GetComponent<Player>().isDead())
+        if (m_Player.isDead() == false)
+        { 
+            if (col.tag == "Player" && m_IsColliding == false)
             {
-                m_PlayerNear = col.gameObject.GetComponent<Player>();
+                m_IsColliding = true;
+                PreRez(col.gameObject);              
             }
         }
     }
 
+    void PreRez(GameObject _go)
+    {
+        m_PlayerNear = _go.GetComponent<ReturnParent>().m_Parent;
+        LaunchRez();    
+    }
+
     void OnTriggerExit(Collider col)
     {
-        if (col.gameObject == m_PlayerNear)
+        if (_go == m_PlayerNear)
         {
             m_PlayerNear = null;
+            m_IsColliding = false;
         }
     }
+
 }
