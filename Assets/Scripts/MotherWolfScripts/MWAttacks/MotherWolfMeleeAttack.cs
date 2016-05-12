@@ -38,8 +38,9 @@ public class MotherWolfMeleeAttack : MotherWolfAttack {
             returnElbowToInitpos();
 	}
 
-    public override void launchAttackSequence(MotherWolfMovement movement)
+    public override void launchAttackSequence(MotherWolfMovement movement, Animator anim)
     {
+        m_animator = anim;
         m_movement = movement;
         selectTarget();
         m_startDelayAim = Time.time;

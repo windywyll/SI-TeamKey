@@ -17,8 +17,9 @@ public class MotherWolfBarrelAttack : MotherWolfAttack {
             m_players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
     }
 
-    public override void launchAttackSequence(MotherWolfMovement movement)
+    public override void launchAttackSequence(MotherWolfMovement movement, Animator anim)
     {
+        m_animator = anim;
         m_hasEnded = false;
         m_movement = movement;
 

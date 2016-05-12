@@ -15,6 +15,8 @@ public class MotherWolf : MonoBehaviour {
     [SerializeField]
     MotherWolfAttack m_rocket;
     [SerializeField]
+    Animator m_animator;
+    [SerializeField]
     int m_lifeMax;
     int m_life;
     int m_countRepeat, m_attackRepeated, m_attackSelected;
@@ -86,7 +88,7 @@ public class MotherWolf : MonoBehaviour {
 
     void rocketAttack()
     {
-        m_rocket.launchAttackSequence(m_movement);
+        m_rocket.launchAttackSequence(m_movement, m_animator);
         m_isRocket = false;
         m_countRepeat = 0;
     }
@@ -125,7 +127,7 @@ public class MotherWolf : MonoBehaviour {
                 countPercentage += m_attacks[i].getPercentageAttack();
                 if (randomAttack <= countPercentage)
                 {
-                    m_attacks[i].launchAttackSequence(m_movement);
+                    m_attacks[i].launchAttackSequence(m_movement, m_animator);
                     m_attackSelected = i;
 
                     if(m_attacks[i].isRepeatable())
@@ -153,14 +155,14 @@ public class MotherWolf : MonoBehaviour {
     {
         if (m_countRepeat < m_attacks[m_attackRepeated].getMinRepeat())
         {
-            m_attacks[m_attackRepeated].launchAttackSequence(m_movement);
+            m_attacks[m_attackRepeated].launchAttackSequence(m_movement, m_animator);
             m_countRepeat++;
         }
         else
         {
             if (m_countRepeat < m_attacks[m_attackRepeated].getMaxRepeat() && Random.Range(0, 100) < m_attacks[m_attackRepeated].getPercentRepeat())
             {
-                m_attacks[m_attackRepeated].launchAttackSequence(m_movement);
+                m_attacks[m_attackRepeated].launchAttackSequence(m_movement, m_animator);
                 m_countRepeat++;
             }
             else

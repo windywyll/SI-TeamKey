@@ -6,6 +6,7 @@ public abstract class MotherWolfAttack : MonoBehaviour {
 
     protected List<GameObject> m_players;
     protected GameObject m_target;
+    protected Animator m_animator;
     [SerializeField]
     protected int m_damage;
     [SerializeField]
@@ -60,7 +61,7 @@ public abstract class MotherWolfAttack : MonoBehaviour {
         return m_hasEnded;
     }
 
-    public abstract void launchAttackSequence(MotherWolfMovement movement);
+    public abstract void launchAttackSequence(MotherWolfMovement movement, Animator anim);
     protected abstract void selectTarget();
     protected abstract void aim();
     protected abstract void attack();

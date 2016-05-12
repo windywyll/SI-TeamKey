@@ -14,8 +14,9 @@ public class MotherWolfObjectRain : MotherWolfAttack {
 	
 	}
 
-    public override void launchAttackSequence(MotherWolfMovement movement)
+    public override void launchAttackSequence(MotherWolfMovement movement, Animator anim)
     {
+        m_animator = anim;
         m_hasEnded = false;
         attack();
     }

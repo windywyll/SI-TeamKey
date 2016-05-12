@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour {
     {
         GameObject _go = Instantiate(m_Player, Vector3.zero, Quaternion.identity) as GameObject;
         _go.GetComponent<Player>().m_PlayerId = _id;
+        _go.transform.position = new Vector3(0.0f, 0.0f, -9.0f);
     }
 
 }

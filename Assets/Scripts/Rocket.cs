@@ -9,6 +9,8 @@ public class Rocket : MonoBehaviour {
     int m_lifeMax, m_lifeSpan;
     [SerializeField]
     GameObject m_explosion;
+    [SerializeField]
+    float m_amplitude, m_repeatSinusoid;
     int m_Life;
     float m_startCountdown;
     Vector3 m_smoothVel2;
@@ -83,7 +85,7 @@ public class Rocket : MonoBehaviour {
             targetRotation *= Quaternion.FromToRotation(transform.forward, lookPoint);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation * transform.rotation, m_smoothTime);
             Vector3 newPos = transform.position + transform.forward * Time.deltaTime * m_speed;
-            float offset = 4 * Mathf.Sin(Time.time * 5);
+            float offset = m_amplitude * Mathf.Sin(Time.time * m_repeatSinusoid);
             transform.position = newPos;
             transform.position = transform.position + transform.right * offset * 0.02f;
         }

@@ -29,7 +29,13 @@ public class MotherWolfRocketAttack : MotherWolfAttack {
             selectTarget();
 	}
 
-    public override void launchAttackSequence(MotherWolfMovement movement)
+    public override void launchAttackSequence(MotherWolfMovement movement, Animator anim)
+    {
+        m_animator = anim;
+        m_animator.SetTrigger("missile");
+    }
+
+    public void launchMissiles()
     {
         m_hasEnded = false;
         m_startLaunchRockets = true;
