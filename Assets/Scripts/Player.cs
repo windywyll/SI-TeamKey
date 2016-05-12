@@ -2,7 +2,6 @@
 using System.Collections;
 
 
-
 public class Player : MonoBehaviour {
 
 	public int m_PlayerId;
@@ -15,13 +14,26 @@ public class Player : MonoBehaviour {
 
     public float m_InvicibilityTime = 1;
 
+    public Collider m_ColliderSphere;
+    public Collider m_ColliderAlife;
+
+    public SpriteRenderer m_Arrow;
+
+    public Color[] m_ColorPlayer = new Color[4];
+
     // Use this for initialization
     void Start ()
     {
         m_Life = m_MAXLIFE;
         m_IsDead = false;
         m_Invicible = false;
+        ChangeCollider(true);
         Rename();
+
+        //UIManager.instance.m_PlayerUIArray[m_PlayerId - 1] = GetComponent<PlayerUI>();
+
+
+        m_Arrow.color = m_ColorPlayer[m_PlayerId-1];
 	}
 
     void Rename()
@@ -61,6 +73,7 @@ public class Player : MonoBehaviour {
     {
         if(!m_IsDead && !m_Invicible)
         {
+            GetComponent<PlayerData>().AddDamagesTaken(_damages);
             if (m_Life - _damages >= 0)
             {
                 m_Life -= _damages;
@@ -77,8 +90,11 @@ public class Player : MonoBehaviour {
 
     void Died()
     {
+        GetComponent<PlayerData>().AddDeath();
         m_IsDead = true;
         m_Invicible = true;
+        ChangeCollider(false);
+        gameObject.layer = 11;
     }
 
     IEnumerator Invincible()
@@ -88,4 +104,27 @@ public class Player : MonoBehaviour {
         m_Invicible = false;
     }
 
+    void Update()
+    {
+        if (Input.GetButtonDown("Back_" + m_PlayerId.ToString()))
+        {
+            Died();
+        }
+    }
+
+    public void Rez()
+    {
+        m_ColliderSphere.enabled = false;
+        m_IsDead = false;
+        StartCoroutine(Invincible());
+        m_Life = m_MAXLIFE;
+        ChangeCollider(true);
+        gameObject.layer = 8;
+    }
+
+    void ChangeCollider(bool _aliveCollider)
+    {
+        m_ColliderAlife.enabled = _aliveCollider;
+        m_ColliderSphere.enabled = !_aliveCollider;
+    }
 }

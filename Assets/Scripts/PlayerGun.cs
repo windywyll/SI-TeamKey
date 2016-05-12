@@ -74,7 +74,7 @@ public class PlayerGun : MonoBehaviour {
             m_IsShooting = false;
         }
 
-        if (Input.GetButtonDown("X_" + m_PlayerId.ToString()))
+        if (Input.GetButtonDown("X_" + m_PlayerId.ToString())&& m_IsReloading==false && m_IsShooting==false)
         {
             StartCoroutine(Reload());
         }
@@ -90,7 +90,9 @@ public class PlayerGun : MonoBehaviour {
             {
                 while (m_IsShooting)
                 {
+                    if(m_IsReloading==false)
                     Shoot();
+
                     yield return new WaitForSeconds(m_ShootCooldownDelay);
                 }
                 yield return new WaitForSeconds(m_ShootCooldownDelay);
@@ -103,10 +105,14 @@ public class PlayerGun : MonoBehaviour {
     {
         if (m_Ammo > 0)
         {
+            GetComponent<PlayerData>().AddBulletsLaunched();
+
             m_Vibrations.ShootVibration();
             m_Ammo--;
+            UIManager.instance.DecrementBullet(m_PlayerId);
             GameObject _bullet = Instantiate(m_Bullet, m_Canon.transform.position, transform.rotation) as GameObject;
             _bullet.GetComponent<BulletMovement>().SetDamages(m_Damages);
+            _bullet.GetComponent<BulletMovement>().SetCreator(gameObject);
             _bullet.transform.eulerAngles = new Vector3(_bullet.transform.eulerAngles.x, _bullet.transform.eulerAngles.y + Random.Range(-m_OffsetBalistic, m_OffsetBalistic), _bullet.transform.eulerAngles.z);
         }
     }
@@ -117,8 +123,9 @@ public class PlayerGun : MonoBehaviour {
         {
             if (m_IsReloading == false)
             {
-                m_Vibrations.ReloadVibration(true);
                 m_IsReloading = true;
+                m_Vibrations.ReloadVibration(true);
+                
                 float _time = m_CooldownReload;
 
                 bool _done = false;
@@ -132,13 +139,14 @@ public class PlayerGun : MonoBehaviour {
                     {
                         _done = true;
                         m_Vibrations.ReloadVibration(false);
+                        UIManager.instance.ReloadBullets(m_PlayerId);
                     }
                 }
 
                 m_Ammo = m_MaxAmmo;
-               
-                //UI
 
+                //UI
+                yield return new WaitForSeconds(0.1f);
                 m_IsReloading = false;
             }
         }
