@@ -288,6 +288,11 @@ public class PlayerMove : MonoBehaviour {
         m_CurrentSpeed = 3;
         m_IsDashing = false;
     }
+
+    public float getCurrentSpeed()
+    {
+        return m_CurrentSpeed;
+    }
     
 }
 

@@ -1,15 +1,43 @@
 fileFormatVersion: 2
-guid: f53ae3008e6045840a3a4ca4d41f7f08
-timeCreated: 1462868951
+guid: 046966b820a7cd14e8bb9071bb0dcde4
+timeCreated: 1463063917
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Sheep
+    100000: Sk_body_sheep
+    100002: Sk_eyes_sheep
+    100004: Sk_hat_sheep
+    100006: //RootNode
+    100008: Sm_whool_1
+    100010: Sm_whool_2
+    100012: Sm_whool_3
+    400000: Sk_body_sheep
+    400002: Sk_eyes_sheep
+    400004: Sk_hat_sheep
+    400006: //RootNode
+    400008: Sm_whool_1
+    400010: Sm_whool_2
+    400012: Sm_whool_3
+    2300000: Sk_body_sheep
+    2300002: Sk_eyes_sheep
+    2300004: Sk_hat_sheep
+    2300006: Sm_whool_1
+    2300008: Sm_whool_2
+    2300010: Sm_whool_3
+    3300000: Sk_body_sheep
+    3300002: Sk_eyes_sheep
+    3300004: Sk_hat_sheep
+    3300006: Sm_whool_1
+    3300008: Sm_whool_2
+    3300010: Sm_whool_3
+    4300000: Sm_whool_1
+    4300002: Sm_whool_2
+    4300004: Sm_whool_3
+    4300006: Sk_body_sheep
+    4300008: Sk_hat_sheep
+    4300010: Sk_eyes_sheep
+    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -68,7 +96,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 0
+  animationType: 2
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
