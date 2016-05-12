@@ -30,8 +30,10 @@ public class Player : MonoBehaviour {
         ChangeCollider(true);
         Rename();
 
-        m_Arrow.color = m_ColorPlayer[m_PlayerId-1];
+        //UIManager.instance.m_PlayerUIArray[m_PlayerId - 1] = GetComponent<PlayerUI>();
 
+
+        m_Arrow.color = m_ColorPlayer[m_PlayerId-1];
 	}
 
     void Rename()
