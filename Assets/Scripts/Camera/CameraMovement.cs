@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class CameraMovement : MonoBehaviour {
-    
+
+    [SerializeField]
     private float m_speed;
     [SerializeField]
     private float m_maxX_Right;
@@ -11,6 +12,8 @@ public class CameraMovement : MonoBehaviour {
     private float m_maxX_Left;
     [SerializeField]
     private float m_max_Height;
+    [SerializeField]
+    private float m_stepBack;
     private float m_min_Height;
 
     Camera m_mainCam;
@@ -28,8 +31,7 @@ public class CameraMovement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-        m_speed = m_players[0].GetComponent<PlayerMove>().getCurrentSpeed();
+        
         m_exitRight = false;
         m_exitLeft = false;
         m_exitDown = false;
@@ -43,35 +45,30 @@ public class CameraMovement : MonoBehaviour {
 
             if (viewPos.x > 0.9f)
             {
-                m_speed = Mathf.Max(m_speed, m_players[i].GetComponent<PlayerMove>().m_CurrentSpeed);
                 m_exitRight = true;
             }
 
             if (viewPos.x < 0.1f)
             {
-                m_speed = Mathf.Max(m_speed, m_players[i].GetComponent<PlayerMove>().m_CurrentSpeed);
                 m_exitLeft = true;
             }
 
             if (viewPos.y < 0.1f)
             {
-                m_speed = Mathf.Max(m_speed, m_players[i].GetComponent<PlayerMove>().m_CurrentSpeed);
                 m_exitDown = true;
             }
 
             if (viewPos.x > 0.85f || viewPos.x < 0.15f || viewPos.y < 0.15f)
                 m_allInside = false;
-            else
-                m_speed = Mathf.Max(m_speed, m_players[i].GetComponent<PlayerMove>().m_CurrentSpeed);
         }
 
-        Debug.Log(m_speed);
+
 
         float moveSpeed = m_speed * Time.deltaTime;
 
         if (m_exitLeft && m_exitRight)
         {
-            transform.Translate(new Vector3(0.0f, -moveSpeed/2, -moveSpeed));
+            transform.Translate(new Vector3(0.0f, -moveSpeed/ m_stepBack, -moveSpeed));
         }
         else
         {
@@ -84,12 +81,12 @@ public class CameraMovement : MonoBehaviour {
 
         if(m_exitDown && transform.position.y < m_max_Height)
         {
-            transform.Translate(new Vector3(0.0f, -moveSpeed/2, -moveSpeed));
+            transform.Translate(new Vector3(0.0f, -moveSpeed/ m_stepBack, -moveSpeed));
         }
 
         if (m_allInside && transform.position.y > m_min_Height)
         {
-            transform.Translate(new Vector3(0.0f, moveSpeed/2, moveSpeed));
+            transform.Translate(new Vector3(0.0f, moveSpeed/ m_stepBack, moveSpeed));
         }
     }
 }
