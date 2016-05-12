@@ -3,7 +3,11 @@ using System.Collections;
 using System;
 
 public class MotherWolfMotorAttack : MotherWolfAttack {
-    
+
+    [SerializeField]
+    GameObject m_motor;
+    bool m_launchMotor;
+
     // Use this for initialization
     void Start () {
 	
@@ -11,14 +15,15 @@ public class MotherWolfMotorAttack : MotherWolfAttack {
 	
 	// Update is called once per frame
 	void Update () {
-	
+        if (m_launchMotor)
+            attack();
 	}
 
     public override void launchAttackSequence(MotherWolfMovement movement, Animator anim)
     {
         m_animator = anim;
         m_hasEnded = false;
-        attack();
+        m_animator.SetTrigger("objectRain");
     }
 
     protected override void selectTarget()
@@ -31,8 +36,15 @@ public class MotherWolfMotorAttack : MotherWolfAttack {
 
     protected override void attack()
     {
+        GameObject motorhead = Instantiate(m_motor);
+        motorhead.GetComponent<Motor>().setDamage(m_damage);
+        m_launchMotor = false;
         m_hasEnded = true;
-        Debug.Log("Moot Moot");
+    }
+
+    public void launchMotor()
+    {
+        m_launchMotor = true;
     }
     
 }

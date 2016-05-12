@@ -89,7 +89,6 @@ public class MotherWolf : MonoBehaviour {
     void rocketAttack()
     {
         m_rocket.launchAttackSequence(m_movement, m_animator);
-        m_isRocket = false;
         m_countRepeat = 0;
     }
 
@@ -137,7 +136,6 @@ public class MotherWolf : MonoBehaviour {
                     }
                     else
                     {
-                        m_isRocket = true;
                         m_countRepeat = 0;
                         m_attackRepeated = -1;
                     }
@@ -177,9 +175,15 @@ public class MotherWolf : MonoBehaviour {
     void checkIfAttackEnded()
     {
         if (m_isRocket)
+        {
             m_attackEnded = m_rocket.attackEnded();
+            m_isRocket = false;
+        }
         else
+        {
             m_attackEnded = m_attacks[m_attackSelected].attackEnded();
+            m_isRocket = true;
+        }
 
         if (m_attackEnded)
             m_startAttack = Time.time;

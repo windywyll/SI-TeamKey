@@ -18,7 +18,8 @@ public class MotherWolfRocketAttack : MotherWolfAttack {
 
     // Use this for initialization
     void Start () {
-	}
+        m_hasEnded = false;
+    }
  	
 	// Update is called once per frame
 	void Update () {
@@ -31,6 +32,7 @@ public class MotherWolfRocketAttack : MotherWolfAttack {
 
     public override void launchAttackSequence(MotherWolfMovement movement, Animator anim)
     {
+        m_hasEnded = false;
         m_animator = anim;
         m_animator.SetTrigger("missile");
     }

@@ -17,4 +17,9 @@ public class MotherWolfLinkAttacksAnimation : MonoBehaviour {
     {
         m_missile.launchMissiles();
     }
+
+    public void launchMotor()
+    {
+        m_motor.launchMotor();
+    }
 }
