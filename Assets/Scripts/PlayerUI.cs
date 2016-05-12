@@ -6,15 +6,11 @@ public class PlayerUI : MonoBehaviour {
 
     [SerializeField]
     private List<GameObject> m_BulletUIList = new List<GameObject>();
-    private Player m_Player;
-    private int m_PlayerId;
 
     private int m_NumberBullet;
 
     void Start()
     {
-        m_Player = GetComponent<Player>();
-        m_PlayerId = m_Player.m_PlayerId;
         m_NumberBullet = 0;
     }
 
