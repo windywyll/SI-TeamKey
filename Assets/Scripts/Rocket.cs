@@ -41,8 +41,6 @@ public class Rocket : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-        Debug.Log("touched");
-
         if (col.transform.root.tag == "Player" || col.transform.root.tag == "Barrel")
             explode();
     }
