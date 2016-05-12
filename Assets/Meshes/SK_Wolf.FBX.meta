@@ -1,0 +1,175 @@
+fileFormatVersion: 2
+guid: e5bfc75661faadf45a162adb14ce45c2
+timeCreated: 1463068370
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: B_Cheville_D
+    100002: B_Cheville_G
+    100004: B_Cou
+    100006: B_Coude_D
+    100008: B_Coude_G
+    100010: B_Dos
+    100012: B_Epaule_D
+    100014: B_Epaule_G
+    100016: B_Genou_D
+    100018: B_Genou_G
+    100020: B_Hanche_D
+    100022: B_Hanche_G
+    100024: B_Machoire_01
+    100026: B_Machoire_02
+    100028: B_MachoireMuseau
+    100030: B_Museau_01
+    100032: B_Museau_02
+    100034: B_Museau_03
+    100036: B_Oeil_D
+    100038: B_Oeil_D_fin
+    100040: B_Oeil_G
+    100042: B_Oeil_G_fin
+    100044: B_Omoplate_D
+    100046: B_Omoplate_G
+    100048: B_Poignet
+    100050: B_Poignet_G
+    100052: B_Queue_01
+    100054: B_Queue_02
+    100056: B_Queue_03
+    100058: B_Queue_04
+    100060: B_Root
+    100062: B_Tete
+    100064: B_Torse
+    100066: B_Ventre
+    100068: C_Bassin
+    100070: C_Cou
+    100072: C_Dos
+    100074: C_Master
+    100076: C_Oeil_D
+    100078: C_Oeil_G
+    100080: C_Tete
+    100082: C_Torse
+    100084: C_Ventre
+    100086: H_Bassin
+    100088: H_Oeil_D
+    100090: H_Oeil_G
+    100092: H_Queue
+    100094: H_Tete
+    100096: H_Ventre
+    100098: //RootNode
+    100100: Sm_Wolf__Body_Low
+    400000: B_Cheville_D
+    400002: B_Cheville_G
+    400004: B_Cou
+    400006: B_Coude_D
+    400008: B_Coude_G
+    400010: B_Dos
+    400012: B_Epaule_D
+    400014: B_Epaule_G
+    400016: B_Genou_D
+    400018: B_Genou_G
+    400020: B_Hanche_D
+    400022: B_Hanche_G
+    400024: B_Machoire_01
+    400026: B_Machoire_02
+    400028: B_MachoireMuseau
+    400030: B_Museau_01
+    400032: B_Museau_02
+    400034: B_Museau_03
+    400036: B_Oeil_D
+    400038: B_Oeil_D_fin
+    400040: B_Oeil_G
+    400042: B_Oeil_G_fin
+    400044: B_Omoplate_D
+    400046: B_Omoplate_G
+    400048: B_Poignet
+    400050: B_Poignet_G
+    400052: B_Queue_01
+    400054: B_Queue_02
+    400056: B_Queue_03
+    400058: B_Queue_04
+    400060: B_Root
+    400062: B_Tete
+    400064: B_Torse
+    400066: B_Ventre
+    400068: C_Bassin
+    400070: C_Cou
+    400072: C_Dos
+    400074: C_Master
+    400076: C_Oeil_D
+    400078: C_Oeil_G
+    400080: C_Tete
+    400082: C_Torse
+    400084: C_Ventre
+    400086: H_Bassin
+    400088: H_Oeil_D
+    400090: H_Oeil_G
+    400092: H_Queue
+    400094: H_Tete
+    400096: H_Ventre
+    400098: //RootNode
+    400100: Sm_Wolf__Body_Low
+    4300000: Sm_Wolf__Body_Low
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Sm_Wolf__Body_Low
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
