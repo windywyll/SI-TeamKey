@@ -22,8 +22,8 @@ public class Player : MonoBehaviour {
         m_IsDead = false;
         m_Invicible = false;
         Rename();
-
-	}
+        UIManager.instance.AddPlayerWorldUI(m_PlayerId, this.gameObject);
+    }
 
     void Rename()
     {
