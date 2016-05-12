@@ -55,8 +55,7 @@ Shader "Shader Forge/PanelPlayerChoice" {
                 clip(_Arrow_var.a - 0.5);
 ////// Lighting:
 ////// Emissive:
-                float3 node_2019 = (_Arrow_var.rgb*_ArrowColor.rgb);
-                float3 emissive = node_2019;
+                float3 emissive = (_Arrow_var.rgb*_ArrowColor.rgb);
                 float3 finalColor = emissive;
                 return fixed4(finalColor,1);
             }
