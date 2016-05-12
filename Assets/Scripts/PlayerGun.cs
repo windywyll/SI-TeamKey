@@ -54,14 +54,18 @@ public class PlayerGun : MonoBehaviour {
         {
             ShootInput();
         }
+
+
     }
 	
     void ShootInput()
     {
         if (m_CanShoot)
         {
+            
             if (Input.GetAxis("TriggersR_" + m_PlayerId.ToString()) > 0)
             {
+
                 m_IsShooting = true;
             }
             else
