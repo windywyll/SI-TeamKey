@@ -19,6 +19,11 @@ public class BulletMovement : MonoBehaviour {
         startDeathCountdown = Time.time;
     }
 
+    public void SetCreator(GameObject _creator)
+    {
+
+    }
+
     public void SetDamages( int _damages)
     {
         m_damage = _damages;
@@ -37,6 +42,21 @@ public class BulletMovement : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
+        if(col.gameObject.tag=="Wolf")
+        {
+            m_creator.GetComponent<PlayerData>().AddBulletsTouched();
+        }
+
+        if (col.gameObject.tag == "Obstacle")
+        {
+            m_creator.GetComponent<PlayerData>().AddBulletsTouched();
+        }
+
+        if (col.gameObject.tag == "Barril")
+        {
+            m_creator.GetComponent<PlayerData>().AddBulletsTouched();
+        }
+
         Destroy(gameObject);
     }
 }
