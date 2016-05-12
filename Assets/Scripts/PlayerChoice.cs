@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerChoice : MonoBehaviour {
 
@@ -22,9 +23,18 @@ public class PlayerChoice : MonoBehaviour {
     public Animator m_AnimatorGreen;
     public Animator m_AnimatorYellow;
 
+    public Animator m_AnimatorPlayerRed;
+    public Animator m_AnimatorPlayerBlue;
+    public Animator m_AnimatorPlayerGreen;
+    public Animator m_AnimatorPlayerYellow;
+
+    //Particules
+    public GameObject m_Particule;
+
     // Use this for initialization
     void Start ()
     {
+        m_Particule.SetActive(false);
         m_PlayerRedReady = false;
         m_PlayerBlueReady = false;
         m_PlayerGreenReady = false;
@@ -42,6 +52,18 @@ public class PlayerChoice : MonoBehaviour {
 
     void StartTheGame()
     {
+        m_AnimatorPlayerRed.SetTrigger("Validate");
+        m_AnimatorPlayerBlue.SetTrigger("Validate");
+        m_AnimatorPlayerGreen.SetTrigger("Validate");
+        m_AnimatorPlayerYellow.SetTrigger("Validate");
+        m_Particule.SetActive(true);
+
+        Invoke("NextScene",3);
+    }
+
+    void NextScene()
+    {
+        PlayerPrefs.SetInt("PlayerNumber", m_PlayerNumber);
 
     }
 

@@ -2,7 +2,6 @@
 using System.Collections;
 
 
-
 public class Player : MonoBehaviour {
 
 	public int m_PlayerId;
@@ -18,6 +17,10 @@ public class Player : MonoBehaviour {
     public Collider m_ColliderSphere;
     public Collider m_ColliderAlife;
 
+    public SpriteRenderer m_Arrow;
+
+    public Color[] m_ColorPlayer = new Color[4];
+
     // Use this for initialization
     void Start ()
     {
@@ -26,7 +29,11 @@ public class Player : MonoBehaviour {
         m_Invicible = false;
         ChangeCollider(true);
         Rename();
+
         //UIManager.instance.m_PlayerUIArray[m_PlayerId - 1] = GetComponent<PlayerUI>();
+
+
+        m_Arrow.color = m_ColorPlayer[m_PlayerId-1];
 	}
 
     void Rename()
