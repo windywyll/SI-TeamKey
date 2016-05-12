@@ -1,14 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Barrel : MonoBehaviour {
+public class ObjectRain : MonoBehaviour {
 
     [SerializeField]
-    int m_lifeMax;
-    [SerializeField]
-    float m_speed;
-
-    Vector3 m_target;
+    float speed;
 
 	// Use this for initialization
 	void Start () {

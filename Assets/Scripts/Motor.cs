@@ -3,6 +3,10 @@ using System.Collections;
 
 public class Motor : MonoBehaviour {
 
+    [SerializeField]
+    float m_lifetime;
+
+
 	// Use this for initialization
 	void Start () {
 	

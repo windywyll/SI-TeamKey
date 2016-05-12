@@ -6,14 +6,17 @@ public class MotherWolfRocketAttack : MotherWolfAttack {
 
     [SerializeField]
     int m_numRocket2Fire;
+    [SerializeField]
+    GameObject m_rocket;
+    [SerializeField]
+    Transform m_launcher;
     int m_numRocketLaunched;
     bool m_startLaunchRockets;
 
     // Use this for initialization
     void Start () {
-	
 	}
-	
+ 	
 	// Update is called once per frame
 	void Update () {
         if (m_players == null)
@@ -27,6 +30,7 @@ public class MotherWolfRocketAttack : MotherWolfAttack {
     {
         m_hasEnded = false;
         m_startLaunchRockets = true;
+        m_numRocketLaunched = 0;
     }
 
     protected override void selectTarget()
@@ -39,6 +43,13 @@ public class MotherWolfRocketAttack : MotherWolfAttack {
     {
         //instantiate rocket
         //rotate it
+        Vector3 down = m_launcher.position;
+        down += m_launcher.forward * 4;
+        down.y = m_target.transform.position.y;
+        GameObject rock = (GameObject) Instantiate(m_rocket);
+        rock.transform.position = m_launcher.position;
+        rock.transform.LookAt(down);
+        rock.GetComponent<Rocket>().setTarget(m_target.transform);
 
         m_numRocketLaunched++;
 
