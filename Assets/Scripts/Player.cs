@@ -22,7 +22,7 @@ public class Player : MonoBehaviour {
     public SpriteRenderer m_Arrow;
 
     public Color[] m_ColorPlayer = new Color[4];
-
+    public GameManager m_GameManager;
     // Use this for initialization
     void Start ()
     {

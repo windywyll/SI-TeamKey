@@ -1,16 +1,24 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
+
+using UnityEngine.UI;
 
 public class Menu : MonoBehaviour {
 
-    // Use this for initialization
-    void Start() { }
 
-    // Update is called once per frame
-    void Update() { }
+    public void ButtonPlay()
+    {
+        SceneManager.LoadScene("");
+    }
 
-    public class ButtonStart (int index)
-        {
-            Application.LoadLevel(index);
-        }
+    public void ButtonCredits()
+    {
+        SceneManager.LoadScene("");
+    }
+
+    public void ButtonQuit()
+    {
+        SceneManager.LoadScene("");
+    }
 }
