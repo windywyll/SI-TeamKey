@@ -18,7 +18,16 @@ public class Motor : MonoBehaviour {
     {
         if(col.transform.root.tag == "Bullet" && !m_isFalling)
         {
-            transform.position += col.transform.root.forward * Time.deltaTime * m_speedMove;
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.position + col.transform.root.forward, out hit, (m_width / 2) + 0.5f))
+            {
+                    if(hit.collider.transform.root.tag == "Ground")
+                        transform.position += col.transform.root.forward * Time.deltaTime * m_speedMove;
+            }
+            else
+            {
+                transform.position += col.transform.root.forward * Time.deltaTime * m_speedMove;
+            }
         }
     }
 
