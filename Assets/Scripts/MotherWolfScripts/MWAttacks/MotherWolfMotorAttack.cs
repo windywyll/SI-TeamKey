@@ -21,7 +21,7 @@ public class MotherWolfMotorAttack : MotherWolfAttack {
     {
         m_animator = anim;
         m_hasEnded = false;
-        m_animator.SetTrigger("objectRain");
+        m_animator.SetTrigger("motor");
     }
 
     protected override void selectTarget()

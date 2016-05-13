@@ -97,6 +97,7 @@ public class MotherWolf : MonoBehaviour {
     void selectAttack()
     {
         m_animator.ResetTrigger("objectRain");
+        m_animator.ResetTrigger("motor");
         m_animator.ResetTrigger("melee");
         m_animator.ResetTrigger("launchBarrel");
         m_animator.ResetTrigger("missile");
