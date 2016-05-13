@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
-//using UnityEngine.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class PlayerChoice : MonoBehaviour {
 
@@ -15,8 +15,7 @@ public class PlayerChoice : MonoBehaviour {
     private bool m_CanSelect = true;
 
     //UI
-
-
+   
     //Animator
     public Animator m_AnimatorRed;
     public Animator m_AnimatorBlue;
@@ -65,6 +64,8 @@ public class PlayerChoice : MonoBehaviour {
     void NextScene()
     {
         PlayerPrefs.SetInt("PlayerNumber", m_PlayerNumber);
+
+        SceneManager.LoadScene("LD_1");
 
     }
 
