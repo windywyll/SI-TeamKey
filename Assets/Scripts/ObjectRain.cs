@@ -37,9 +37,9 @@ public class ObjectRain : MonoBehaviour {
         if (transform.position.y >= m_landingPoint.y + 0.1f || transform.position.y <= m_landingPoint.y - 0.1f)
         {
             transform.LookAt(m_landingPoint);
-            Transform temp = transform.FindChild("Visual");
+            Transform temp = transform.FindChild("Visuals");
             temp.LookAt(transform.position + Vector3.forward);
-            temp = transform.FindChild("Physic");
+            temp = transform.FindChild("Physics");
             temp.LookAt(transform.position + Vector3.forward);
             transform.position += transform.forward * Time.deltaTime * m_speed;
         }
