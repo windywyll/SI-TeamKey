@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 724a82da2ea5b524dab61ef253cf6a81
-timeCreated: 1463062504
+guid: 66d5f76ec9ed5d842a84bbb7072aad8a
+timeCreated: 1463071678
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
@@ -9,8 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Box001
-    9500000: //RootNode
+    4300000: SM_ParticleSmoke
   materials:
     importMaterials: 1
     materialName: 0
@@ -69,7 +68,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
