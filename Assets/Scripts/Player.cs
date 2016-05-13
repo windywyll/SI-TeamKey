@@ -34,6 +34,8 @@ public class Player : MonoBehaviour {
         UIManager.instance.AddPlayerWorldUI(m_PlayerId, this.gameObject);
         m_Arrow.color = m_ColorPlayer[m_PlayerId-1];
         gameObject.layer = 8;
+
+        UIManager.instance.AddPlayerWorldUI(m_PlayerId, this.gameObject);
     }
 
     void Rename()

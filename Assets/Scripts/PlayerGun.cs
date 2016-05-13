@@ -5,6 +5,7 @@ public class PlayerGun : MonoBehaviour {
 
     public GameObject m_Bullet;
     public GameObject m_Canon;
+    public GameObject m_FireBullet;
 
     int m_Damages=1;
 
@@ -109,6 +110,7 @@ public class PlayerGun : MonoBehaviour {
     {
         if (m_Ammo > 0)
         {
+            GetComponent<PlayerSound>().PlaySound(PlayerSoundType.Shoot);
             GetComponent<PlayerData>().AddBulletsLaunched();
 
             m_Vibrations.ShootVibration();
