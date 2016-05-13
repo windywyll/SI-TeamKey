@@ -71,6 +71,11 @@ public class Player : MonoBehaviour {
         return m_IsDead;
     }
 
+    public int getCurrentLife()
+    {
+        return m_Life;
+    }
+
     public void Damages(int _damages)
     {
         if(!m_IsDead && !m_Invicible)
