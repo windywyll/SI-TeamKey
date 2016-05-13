@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.SceneManagement;
+//using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -13,13 +13,15 @@ public class GameManager : MonoBehaviour {
 
     int m_PlayerDieCounter = 0;
 
+    public List<Cloth> m_Cloth = new List<Cloth>();
 
-
+    private Player m_TemporaryPlayer;
 	// Use this for initialization
 	void Awake ()
     {
         PlayerInstantiation();
         SoundManagerEvent.music(MusicType.InGame);
+        
     }
 	
     void PlayerInstantiation()
@@ -35,12 +37,14 @@ public class GameManager : MonoBehaviour {
         }
         else
         {
-            for(int i=m_PlayerNumber; i>0; i--)
+
+            for (int i=m_PlayerNumber; i>0; i--)
             {
                 
                 m_PlayerArray[i-1]= PlayerInstantiate(i);
             }
         }
+
     }
 
     Player PlayerInstantiate(int _id)
@@ -48,6 +52,8 @@ public class GameManager : MonoBehaviour {
         GameObject _go = Instantiate(m_Player, Vector3.zero, Quaternion.identity) as GameObject;
         _go.GetComponent<Player>().m_PlayerId = _id;
         _go.GetComponent<Player>().m_GameManager = this;
+        m_TemporaryPlayer = _go.GetComponent<Player>();
+
         GetComponent<DataSorting>().AddData(_go.GetComponent<PlayerData>());
         return _go.GetComponent<Player>();
     }
@@ -71,9 +77,9 @@ public class GameManager : MonoBehaviour {
         Invoke("ReturnMenu", 3);
     }
 
-    void ReturnToMenu()
+    /*void ReturnToMenu()
     {
         SceneManager.LoadScene(0);
-    }
+    }*/
 
 }
