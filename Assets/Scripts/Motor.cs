@@ -64,7 +64,7 @@ public class Motor : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (m_startCountdown + m_lifetime < Time.time)
+        if (m_startCountdown + m_lifetime < Time.time && m_isDecaying)
             explode();
 
         if (!m_isDecaying)
@@ -80,7 +80,7 @@ public class Motor : MonoBehaviour {
     {
         GameObject expl = Instantiate(m_explosion);
         expl.transform.position = transform.position;
-        expl.GetComponent<Explosion>().setDamage(m_damage);
+        expl.GetComponent<ExplosionMotor>().setDamage(m_damage);
         Destroy(gameObject);
     }
 }

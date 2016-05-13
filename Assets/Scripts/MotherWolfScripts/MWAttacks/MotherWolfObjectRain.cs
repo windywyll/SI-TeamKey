@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class MotherWolfObjectRain : MotherWolfAttack {
 
@@ -34,5 +35,10 @@ public class MotherWolfObjectRain : MotherWolfAttack {
     {
         m_hasEnded = true;
         Debug.Log("Huhuhu");
+    }
+
+    public override void stopAttack()
+    {
+        m_hasEnded = true;
     }
 }

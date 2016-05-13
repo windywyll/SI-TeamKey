@@ -72,4 +72,9 @@ public class MotherWolfBarrelAttack : MotherWolfAttack {
         //instantiate barrel
         Debug.Log("KA-BOOM");
     }
+
+    public override void stopAttack()
+    {
+        m_hasEnded = true;
+    }
 }

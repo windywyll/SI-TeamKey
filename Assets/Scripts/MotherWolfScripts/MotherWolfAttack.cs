@@ -65,4 +65,5 @@ public abstract class MotherWolfAttack : MonoBehaviour {
     protected abstract void selectTarget();
     protected abstract void aim();
     protected abstract void attack();
+    public abstract void stopAttack();
 }

@@ -77,4 +77,10 @@ public class MotherWolfRocketAttack : MotherWolfAttack {
             m_hasEnded = true;
         }
     }
+
+    public override void stopAttack()
+    {
+        m_startLaunchRockets = false;
+        m_hasEnded = true;
+    }
 }

@@ -45,5 +45,10 @@ public class MotherWolfMotorAttack : MotherWolfAttack {
     {
         attack();
     }
-    
+
+    public override void stopAttack()
+    {
+        m_hasEnded = true;
+    }
+
 }

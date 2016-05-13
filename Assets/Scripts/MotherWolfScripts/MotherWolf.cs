@@ -19,7 +19,7 @@ public class MotherWolf : MonoBehaviour {
     Animator m_animator;
     [SerializeField]
     int m_lifeMax, m_weakMultiplicator;
-    int m_life;
+    public int m_life;
     int m_countRepeat, m_attackRepeated, m_attackSelected;
     List<GameObject> m_players;
 
@@ -58,6 +58,11 @@ public class MotherWolf : MonoBehaviour {
 
     public void becomeWeak()
     {
+        if (m_isRocket)
+            m_rocket.stopAttack();
+        else
+            m_attacks[m_attackSelected].stopAttack();
+
         m_isWeak = true;
         m_animator.SetTrigger("hurt");
     }
@@ -91,7 +96,6 @@ public class MotherWolf : MonoBehaviour {
 
     void selectAttack()
     {
-        Debug.Log(m_isRocket);
         m_animator.ResetTrigger("objectRain");
         m_animator.ResetTrigger("melee");
         m_animator.ResetTrigger("launchBarrel");
@@ -214,6 +218,12 @@ public class MotherWolf : MonoBehaviour {
 
     void death()
     {
+        if (m_isRocket)
+            m_rocket.stopAttack();
+        else
+            m_attacks[m_attackSelected].stopAttack();
+
         m_isDead = true;
+        m_animator.SetTrigger("death");
     }
 }

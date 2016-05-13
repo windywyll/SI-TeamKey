@@ -141,4 +141,9 @@ public class MotherWolfMeleeAttack : MotherWolfAttack {
         m_elbow.position = m_initElbowPos;
         m_elbow.rotation = m_initElbowRot;
     }
+
+    public override void stopAttack()
+    {
+        m_hasEnded = true;
+    }
 }
