@@ -5,6 +5,7 @@ public class PlayerGun : MonoBehaviour {
 
     public GameObject m_Bullet;
     public GameObject m_Canon;
+    public GameObject m_FireBullet;
 
     int m_Damages=1;
 
