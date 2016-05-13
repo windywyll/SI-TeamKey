@@ -54,14 +54,18 @@ public class PlayerGun : MonoBehaviour {
         {
             ShootInput();
         }
+
+
     }
 	
     void ShootInput()
     {
         if (m_CanShoot)
         {
+            
             if (Input.GetAxis("TriggersR_" + m_PlayerId.ToString()) > 0)
             {
+
                 m_IsShooting = true;
             }
             else
@@ -109,11 +113,16 @@ public class PlayerGun : MonoBehaviour {
 
             m_Vibrations.ShootVibration();
             m_Ammo--;
+            // Manages the UI bullets.
             UIManager.instance.DecrementBullet(m_PlayerId);
             GameObject _bullet = Instantiate(m_Bullet, m_Canon.transform.position, transform.rotation) as GameObject;
             _bullet.GetComponent<BulletMovement>().SetDamages(m_Damages);
             _bullet.GetComponent<BulletMovement>().SetCreator(gameObject);
             _bullet.transform.eulerAngles = new Vector3(_bullet.transform.eulerAngles.x, _bullet.transform.eulerAngles.y + Random.Range(-m_OffsetBalistic, m_OffsetBalistic), _bullet.transform.eulerAngles.z);
+        }
+        else
+        {
+            UIManager.instance.PlayerWorldUIAnnounce(m_PlayerId, true);
         }
     }
 
@@ -126,23 +135,26 @@ public class PlayerGun : MonoBehaviour {
                 m_IsReloading = true;
                 m_Vibrations.ReloadVibration(true);
                 
-                float _time = m_CooldownReload;
+                float _time = 0;
 
                 bool _done = false;
-
-                while (_time > 0)
+                UIManager.instance.PlayerWorldUIReloading(m_PlayerId, m_CooldownReload);
+                while (_time < m_CooldownReload)
                 {
                     yield return new WaitForSeconds(0.1f);
-                    _time -= 0.1f;
+                    _time += 0.1f;
 
-                    if(_time<=0.2f && _done==false)
+                    if(_time >= m_CooldownReload - 0.2f && _done==false)
                     {
                         _done = true;
                         m_Vibrations.ReloadVibration(false);
+                        //Manages the reload UI.
                         UIManager.instance.ReloadBullets(m_PlayerId);
                     }
                 }
 
+                //Manages the UI following the player.
+                //UIManager.instance.PlayerWorldUIAnnounce(m_PlayerId, false);
                 m_Ammo = m_MaxAmmo;
 
                 //UI
