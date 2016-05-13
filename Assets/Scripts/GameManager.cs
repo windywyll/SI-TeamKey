@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
@@ -11,11 +11,16 @@ public class GameManager : MonoBehaviour {
 
     public Player[] m_PlayerArray = new Player[4];
 
+    int m_PlayerDieCounter = 0;
+
+
+
 	// Use this for initialization
 	void Awake ()
     {
         PlayerInstantiation();
-	}
+        SoundManagerEvent.music(MusicType.InGame);
+    }
 	
     void PlayerInstantiation()
     {
@@ -42,8 +47,33 @@ public class GameManager : MonoBehaviour {
     {
         GameObject _go = Instantiate(m_Player, Vector3.zero, Quaternion.identity) as GameObject;
         _go.GetComponent<Player>().m_PlayerId = _id;
+        _go.GetComponent<Player>().m_GameManager = this;
         GetComponent<DataSorting>().AddData(_go.GetComponent<PlayerData>());
         return _go.GetComponent<Player>();
+    }
+
+    public void AddDiedPlayer()
+    {
+        m_PlayerDieCounter++;
+        if(m_PlayerDieCounter>=m_PlayerNumber)
+        {
+            LooseGame();
+        }
+    }
+    public void SubDiedPlayer()
+    {
+        m_PlayerDieCounter--;
+    }
+
+    void LooseGame()
+    {
+        SoundManagerEvent.music(MusicType.Defeat);
+        Invoke("ReturnMenu", 3);
+    }
+
+    void ReturnToMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 
 }

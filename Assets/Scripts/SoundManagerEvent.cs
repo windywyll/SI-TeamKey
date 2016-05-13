@@ -28,44 +28,35 @@ using System.Collections;
 
 public enum SoundType
 {
-    PoolBounce,
-    BalloonBounce,
-    WoodShock,
-    Meow,
-    HitAir,
-    PotBreak
+
 }
 
 public enum MusicType
 {
-    Elevator,
-    LawnTheme,
-    Mood,
-    Neighborhood,
-    Both
+    Menu,
+    InGame,
+    Defeat,
+    Victory
 }
 
 public enum MowerType
 {
-    MowerStart,
-    MowerStartAndGo,
-    MoweGrass
+
 }
 
 public enum MenuType
 {
-    MenuMove
+
 }
 
 public enum ExtraType
 {
-    Victory,
-    HomeRun
+
 }
 
 public enum VoiceType
 {
-    W_FlowerPot
+
 }
 
 public class SoundManagerEvent : MonoBehaviour

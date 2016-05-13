@@ -110,6 +110,7 @@ public class PlayerGun : MonoBehaviour {
     {
         if (m_Ammo > 0)
         {
+            GetComponent<PlayerSound>().PlaySound(PlayerSoundType.Shoot);
             GetComponent<PlayerData>().AddBulletsLaunched();
 
             m_Vibrations.ShootVibration();
