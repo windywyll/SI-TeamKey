@@ -63,12 +63,6 @@ public class BulletMovement : MonoBehaviour {
         if (col.transform.root.tag == "MotherWolf")
             col.transform.root.GetComponent<MotherWolf>().getHit(m_damage);
 
-        if(col.transform.root.tag != "Player")
-            Destroy(gameObject);
-<<<<<<< .mine
         Destroy(gameObject);
-=======
-
->>>>>>> .theirs
     }
 }
