@@ -37,11 +37,13 @@ public class BulletMovement : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-        Destroy(gameObject);
         if (col.transform.root.tag == "Rocket")
             col.transform.root.GetComponent<Rocket>().getHit(m_damage);
 
         if (col.transform.root.tag == "MotherWolf")
             col.transform.root.GetComponent<MotherWolf>().getHit(m_damage);
+
+        if(col.transform.root.tag != "Player")
+            Destroy(gameObject);
     }
 }

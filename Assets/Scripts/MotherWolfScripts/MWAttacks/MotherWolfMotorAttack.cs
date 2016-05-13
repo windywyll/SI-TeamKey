@@ -15,8 +15,6 @@ public class MotherWolfMotorAttack : MotherWolfAttack {
 	
 	// Update is called once per frame
 	void Update () {
-        if (m_launchMotor)
-            attack();
 	}
 
     public override void launchAttackSequence(MotherWolfMovement movement, Animator anim)
@@ -37,14 +35,15 @@ public class MotherWolfMotorAttack : MotherWolfAttack {
     protected override void attack()
     {
         GameObject motorhead = Instantiate(m_motor);
+        motorhead.transform.position = new Vector3(0.0f, 12.0f, 12.0f);
         motorhead.GetComponent<Motor>().setDamage(m_damage);
-        m_launchMotor = false;
+        motorhead.GetComponent<Motor>().selectLandingPoint();
         m_hasEnded = true;
     }
 
     public void launchMotor()
     {
-        m_launchMotor = true;
+        attack();
     }
     
 }
