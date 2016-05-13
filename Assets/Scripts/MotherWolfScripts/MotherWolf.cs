@@ -9,6 +9,7 @@ public class MotherWolf : MonoBehaviour {
     bool m_isMotorInZone;
     bool m_attackEnded;
     bool m_isDead;
+    bool m_isWeak;
     MotherWolfMovement m_movement;
     [SerializeField]
     List<MotherWolfAttack> m_attacks;
@@ -17,7 +18,7 @@ public class MotherWolf : MonoBehaviour {
     [SerializeField]
     Animator m_animator;
     [SerializeField]
-    int m_lifeMax;
+    int m_lifeMax, m_weakMultiplicator;
     int m_life;
     int m_countRepeat, m_attackRepeated, m_attackSelected;
     List<GameObject> m_players;
@@ -32,6 +33,7 @@ public class MotherWolf : MonoBehaviour {
         m_startAttack = Time.time;
         m_isRocket = true;
         m_isMotorInZone = false;
+        m_attackEnded = true;
         m_countRepeat = 0;
         m_attackRepeated = -1;
         m_life = m_lifeMax;
@@ -44,7 +46,7 @@ public class MotherWolf : MonoBehaviour {
             if (m_players == null)
                 m_players = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player"));
 
-            if (m_startAttack + m_attackCooldown < Time.time)
+            if (m_startAttack + m_attackCooldown < Time.time && m_attackEnded && ! m_isWeak)
             {
                 selectAttack();
             }
@@ -53,6 +55,18 @@ public class MotherWolf : MonoBehaviour {
                 checkIfAttackEnded();
         }
 	}
+
+    public void becomeWeak()
+    {
+        m_isWeak = true;
+        m_animator.SetTrigger("hurt");
+    }
+
+    public void stopBeingWeak()
+    {
+        m_isWeak = false;
+        m_animator.ResetTrigger("hurt");
+    }
 
     public bool isDead()
     {
@@ -66,7 +80,10 @@ public class MotherWolf : MonoBehaviour {
 
     public void getHit(int damage)
     {
-        m_life -= damage;
+        if (m_isWeak)
+            m_life -= damage * m_weakMultiplicator;
+        else
+            m_life -= damage;
 
         if (m_life <= 0)
             death();
@@ -74,6 +91,11 @@ public class MotherWolf : MonoBehaviour {
 
     void selectAttack()
     {
+        Debug.Log(m_isRocket);
+        m_animator.ResetTrigger("objectRain");
+        m_animator.ResetTrigger("melee");
+        m_animator.ResetTrigger("launchBarrel");
+        m_animator.ResetTrigger("missile");
         m_attackEnded = false;
 
         if (m_isRocket)
@@ -177,16 +199,17 @@ public class MotherWolf : MonoBehaviour {
         if (m_isRocket)
         {
             m_attackEnded = m_rocket.attackEnded();
-            m_isRocket = false;
         }
         else
         {
             m_attackEnded = m_attacks[m_attackSelected].attackEnded();
-            m_isRocket = true;
         }
 
         if (m_attackEnded)
+        {
             m_startAttack = Time.time;
+            m_isRocket = !m_isRocket;
+        }
     }
 
     void death()

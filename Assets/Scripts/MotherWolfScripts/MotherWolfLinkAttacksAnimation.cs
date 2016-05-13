@@ -12,6 +12,8 @@ public class MotherWolfLinkAttacksAnimation : MonoBehaviour {
     private MotherWolfMotorAttack m_motor;
     [SerializeField]
     private MotherWolfRocketAttack m_missile;
+    [SerializeField]
+    private MotherWolf m_mother;
 
     public void launchRockets()
     {
@@ -21,5 +23,10 @@ public class MotherWolfLinkAttacksAnimation : MonoBehaviour {
     public void launchMotor()
     {
         m_motor.launchMotor();
+    }
+
+    public void stopWeakness()
+    {
+        m_mother.stopBeingWeak();
     }
 }
