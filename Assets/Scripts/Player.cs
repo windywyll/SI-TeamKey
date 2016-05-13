@@ -31,7 +31,7 @@ public class Player : MonoBehaviour {
         m_Invicible = false;
         ChangeCollider(true);
         Rename();
-
+        UIManager.instance.AddPlayerWorldUI(m_PlayerId, this.gameObject);
         m_Arrow.color = m_ColorPlayer[m_PlayerId-1];
         gameObject.layer = 8;
     }

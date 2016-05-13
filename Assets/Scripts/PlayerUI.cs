@@ -12,12 +12,6 @@ public class PlayerUI : MonoBehaviour {
     private Image m_LifeBarImage;
     private int m_NumberBullet;
 
-    public GameObject m_Player;
-
-    [SerializeField]
-    RectTransform m_UIElement;
-    [SerializeField]
-    RectTransform m_CanvasRect;
 
 
     void Start()
