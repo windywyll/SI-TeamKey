@@ -12,8 +12,7 @@ public class Explosion : MonoBehaviour {
         if (col.transform.root.tag == "Player")
             col.transform.root.GetComponent<Player>().Damages(m_damage);
 
-        if (col.transform.root.tag == "Barrel")
-            transform.position = transform.position;
+        //if (col.transform.root.tag == "Barrel")
     }
 
     public void setDamage(int damage)

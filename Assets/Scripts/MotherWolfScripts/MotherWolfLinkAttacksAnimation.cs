@@ -25,6 +25,11 @@ public class MotherWolfLinkAttacksAnimation : MonoBehaviour {
         m_motor.launchMotor();
     }
 
+    public void startTheRain()
+    {
+        m_objectRain.releaseTheRain();
+    }
+
     public void stopWeakness()
     {
         m_mother.stopBeingWeak();

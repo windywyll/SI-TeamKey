@@ -4,13 +4,14 @@ using System.Collections.Generic;
 
 public abstract class MotherWolfAttack : MonoBehaviour {
 
+    protected MotherWolf m_mom;
     protected List<GameObject> m_players;
     protected GameObject m_target;
     protected Animator m_animator;
     [SerializeField]
     protected int m_damage;
     [SerializeField]
-    protected int m_percentageAttack;
+    protected int m_percentageAttack, m_percentageAttackMotorInZone;
     protected MotherWolfMovement m_movement;
     [SerializeField]
     protected bool m_isRepeatable;
@@ -29,6 +30,11 @@ public abstract class MotherWolfAttack : MonoBehaviour {
     public float getPercentageAttack()
     {
         return m_percentageAttack;
+    }
+
+    public float getPercentageAttackWithMotorInZone()
+    {
+        return m_percentageAttackMotorInZone;
     }
 
     public float getDamage()
@@ -61,7 +67,7 @@ public abstract class MotherWolfAttack : MonoBehaviour {
         return m_hasEnded;
     }
 
-    public abstract void launchAttackSequence(MotherWolfMovement movement, Animator anim);
+    public abstract void launchAttackSequence(MotherWolfMovement movement, Animator anim, MotherWolf mom);
     protected abstract void selectTarget();
     protected abstract void aim();
     protected abstract void attack();

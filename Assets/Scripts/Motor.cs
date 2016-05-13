@@ -5,6 +5,7 @@ public class Motor : MonoBehaviour {
 
     [SerializeField]
     GameObject m_explosion;
+    MotherWolfMotorAttack m_creator;
     [SerializeField]
     float m_lifetime, m_speed, m_speedMove;
     [SerializeField]
@@ -34,6 +35,11 @@ public class Motor : MonoBehaviour {
     public void setDamage(int damage)
     {
         m_damage = damage;
+    }
+
+    public void setCreator(MotherWolfMotorAttack creator)
+    {
+        m_creator = creator;
     }
 
 	// Use this for initialization
@@ -90,6 +96,7 @@ public class Motor : MonoBehaviour {
         GameObject expl = Instantiate(m_explosion);
         expl.transform.position = transform.position;
         expl.GetComponent<ExplosionMotor>().setDamage(m_damage);
+        m_creator.motorExplode();
         Destroy(gameObject);
     }
 }

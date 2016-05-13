@@ -6,19 +6,24 @@ public class MotherWolfMotorAttack : MotherWolfAttack {
 
     [SerializeField]
     GameObject m_motor;
-    bool m_launchMotor;
+    bool m_launchMotor, m_motorInZone;
 
     // Use this for initialization
     void Start () {
-	
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	}
 
-    public override void launchAttackSequence(MotherWolfMovement movement, Animator anim)
+    public bool isMotorInZone()
     {
+        return m_motorInZone;
+    }
+
+    public override void launchAttackSequence(MotherWolfMovement movement, Animator anim, MotherWolf mom)
+    {
+        m_mom = mom;
         m_animator = anim;
         m_hasEnded = false;
         m_animator.SetTrigger("motor");
@@ -34,16 +39,26 @@ public class MotherWolfMotorAttack : MotherWolfAttack {
 
     protected override void attack()
     {
+        m_motorInZone = true;
+        m_mom.setMotorInZone(true);
         GameObject motorhead = Instantiate(m_motor);
         motorhead.transform.position = new Vector3(0.0f, 12.0f, 12.0f);
-        motorhead.GetComponent<Motor>().setDamage(m_damage);
-        motorhead.GetComponent<Motor>().selectLandingPoint();
+        Motor motor = motorhead.GetComponent<Motor>();
+        motor.setDamage(m_damage);
+        motor.setCreator(this);
+        motor.selectLandingPoint();
+
         m_hasEnded = true;
     }
 
     public void launchMotor()
     {
         attack();
+    }
+
+    public void motorExplode()
+    {
+        m_mom.setMotorInZone(false);
     }
 
     public override void stopAttack()

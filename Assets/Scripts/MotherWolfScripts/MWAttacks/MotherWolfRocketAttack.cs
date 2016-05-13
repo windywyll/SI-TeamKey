@@ -30,7 +30,7 @@ public class MotherWolfRocketAttack : MotherWolfAttack {
             selectTarget();
 	}
 
-    public override void launchAttackSequence(MotherWolfMovement movement, Animator anim)
+    public override void launchAttackSequence(MotherWolfMovement movement, Animator anim, MotherWolf mom)
     {
         m_hasEnded = false;
         m_animator = anim;

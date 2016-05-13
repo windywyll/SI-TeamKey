@@ -12,8 +12,7 @@ public class ExplosionMotor : MonoBehaviour {
         if (col.transform.root.tag == "Player")
             col.transform.root.GetComponent<Player>().Damages(m_damage);
 
-        if (col.transform.root.tag == "Barrel")
-            transform.position = transform.position;
+        //if (col.transform.root.tag == "Barrel")
 
         if (col.transform.root.tag == "MotherWolf")
             col.transform.root.GetComponent<MotherWolf>().becomeWeak();

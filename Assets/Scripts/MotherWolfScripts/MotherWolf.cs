@@ -115,7 +115,7 @@ public class MotherWolf : MonoBehaviour {
 
     void rocketAttack()
     {
-        m_rocket.launchAttackSequence(m_movement, m_animator);
+        m_rocket.launchAttackSequence(m_movement, m_animator, this);
         m_countRepeat = 0;
     }
 
@@ -150,10 +150,14 @@ public class MotherWolf : MonoBehaviour {
 
             for (int i = 0; i < m_attacks.Count; i++)
             {
-                countPercentage += m_attacks[i].getPercentageAttack();
+                if (m_isMotorInZone)
+                    countPercentage += m_attacks[i].getPercentageAttackWithMotorInZone();
+                else
+                    countPercentage += m_attacks[i].getPercentageAttack();
+
                 if (randomAttack <= countPercentage)
                 {
-                    m_attacks[i].launchAttackSequence(m_movement, m_animator);
+                    m_attacks[i].launchAttackSequence(m_movement, m_animator, this);
                     m_attackSelected = i;
 
                     if(m_attacks[i].isRepeatable())
@@ -180,14 +184,14 @@ public class MotherWolf : MonoBehaviour {
     {
         if (m_countRepeat < m_attacks[m_attackRepeated].getMinRepeat())
         {
-            m_attacks[m_attackRepeated].launchAttackSequence(m_movement, m_animator);
+            m_attacks[m_attackRepeated].launchAttackSequence(m_movement, m_animator, this);
             m_countRepeat++;
         }
         else
         {
             if (m_countRepeat < m_attacks[m_attackRepeated].getMaxRepeat() && Random.Range(0, 100) < m_attacks[m_attackRepeated].getPercentRepeat())
             {
-                m_attacks[m_attackRepeated].launchAttackSequence(m_movement, m_animator);
+                m_attacks[m_attackRepeated].launchAttackSequence(m_movement, m_animator, this);
                 m_countRepeat++;
             }
             else
@@ -215,6 +219,11 @@ public class MotherWolf : MonoBehaviour {
             m_startAttack = Time.time;
             m_isRocket = !m_isRocket;
         }
+    }
+
+    public void setMotorInZone(bool motorInZone)
+    {
+        m_isMotorInZone = motorInZone;
     }
 
     void death()
