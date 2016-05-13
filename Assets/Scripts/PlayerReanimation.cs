@@ -38,7 +38,6 @@ public class PlayerReanimation : MonoBehaviour
             {
                 if (m_PlayerNear != null)
                 {
-                    Debug.Log("A");
                     LaunchRez();
                 }
             }
@@ -52,7 +51,6 @@ public class PlayerReanimation : MonoBehaviour
 
     void LaunchRez()
     {
-
         m_IsReanimated = true;
         StartCoroutine(ReanimationCoroutine());
         
@@ -60,14 +58,20 @@ public class PlayerReanimation : MonoBehaviour
 
     public void StopRez()
     {
+        if (m_PlayerNear != null)
+        {
+            UIManager.instance.RezButtonStop(m_PlayerNear.gameObject);
+        }
+        
         StopAllCoroutines();
         m_IsReanimated = false;
     }
 
     IEnumerator ReanimationCoroutine()
     {
+        UIManager.instance.RezButtonLaunch(this.gameObject, m_PlayerNear.m_PlayerId, m_TimeRez);
         float _time = m_TimeRez;
-        while (_time > 0)
+        while (_time > 0 && m_IsReanimated)
         {
             _time -= 0.1f;
             yield return new WaitForSeconds(0.1f);
@@ -87,8 +91,9 @@ public class PlayerReanimation : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
+
         if (m_Player.isDead() == false)
-        { 
+        {
             if (col.tag == "Player" && m_IsColliding == false)
             {
                 m_IsColliding = true;
@@ -100,16 +105,22 @@ public class PlayerReanimation : MonoBehaviour
     void PreRez(GameObject _go)
     {
         m_PlayerNear = _go.GetComponent<ReturnParent>().m_Parent;
-        LaunchRez();    
+        UIManager.instance.RezButtonDisplay(m_PlayerNear.gameObject);
     }
 
     void OnTriggerExit(Collider col)
     {
-        if (_go == m_PlayerNear)
+        if (m_Player.isDead() == false)
         {
-            m_PlayerNear = null;
-            m_IsColliding = false;
+            if (col.tag == "Player" && m_IsColliding == true)
+            {
+                StopRez();
+                UIManager.instance.RezButtonHide(m_PlayerNear.gameObject);
+                m_PlayerNear = null;
+                m_IsColliding = false;
+            }
         }
+        
     }
 
 }
