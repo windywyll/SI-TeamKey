@@ -19,7 +19,7 @@ public class MotherWolf : MonoBehaviour {
     Animator m_animator;
     [SerializeField]
     int m_lifeMax, m_weakMultiplicator;
-    public int m_life;
+    int m_life;
     int m_countRepeat, m_attackRepeated, m_attackSelected;
     List<GameObject> m_players;
 
