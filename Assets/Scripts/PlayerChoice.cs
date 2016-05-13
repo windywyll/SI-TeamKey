@@ -34,6 +34,7 @@ public class PlayerChoice : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        SoundManagerEvent.music(MusicType.Menu);
         m_Particule.SetActive(false);
         m_PlayerRedReady = false;
         m_PlayerBlueReady = false;

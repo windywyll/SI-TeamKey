@@ -31,6 +31,7 @@ public class UIManager : MonoBehaviour {
 
     public void AddPlayerWorldUI(int _playerId, GameObject _player)
     {
+        Debug.Log("Ici");
         GameObject _goUI = Instantiate(m_PlayerWorldUI, _player.transform.position, Quaternion.identity) as GameObject;
         _goUI.name = "PlayerUI" + _playerId;
         m_PlayerWorldUIArray[_playerId - 1] = _goUI.GetComponent<PlayerWorldUI>();

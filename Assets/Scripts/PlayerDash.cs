@@ -50,6 +50,7 @@ public class PlayerDash : MonoBehaviour {
     IEnumerator Dash()
     {
         //Dash
+        GetComponent<PlayerSound>().PlaySound(PlayerSoundType.Dash);
         m_IsDashing = true;
         GetComponent<PlayerGun>().SetCanShoot(false);
         m_Vibrations.DashVibration(m_DashTime);
