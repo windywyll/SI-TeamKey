@@ -23,6 +23,8 @@ public class Player : MonoBehaviour {
 
     public Color[] m_ColorPlayer = new Color[4];
 
+    public GameManager m_GameManager;
+
     // Use this for initialization
     void Start ()
     {
