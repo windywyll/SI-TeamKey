@@ -23,6 +23,11 @@ public class Player : MonoBehaviour {
 
     public Color[] m_ColorPlayer = new Color[4];
 
+    [HideInInspector]
+    public GameManager m_GameManager;
+
+    public Animator m_Animator;
+
     // Use this for initialization
     void Start ()
     {
@@ -32,8 +37,12 @@ public class Player : MonoBehaviour {
         ChangeCollider(true);
         Rename();
 
+
         m_Arrow.color = m_ColorPlayer[m_PlayerId-1];
         gameObject.layer = 8;
+
+        UIManager.instance.AddPlayerWorldUI(m_PlayerId, this.gameObject);
+
     }
 
     void Rename()
@@ -76,8 +85,12 @@ public class Player : MonoBehaviour {
             GetComponent<PlayerData>().AddDamagesTaken(_damages);
             if (m_Life - _damages >= 0)
             {
+                float _startLife = m_Life;
                 m_Life -= _damages;
+                GetComponent<PlayerSound>().PlaySound(PlayerSoundType.Hit);
+                UIManager.instance.LifeManager(m_PlayerId, _startLife, m_Life);
                 StartCoroutine(Invincible());
+                m_GameManager.AddDiedPlayer();
             }
             else
             {
@@ -88,13 +101,37 @@ public class Player : MonoBehaviour {
         
     }
 
+
+    public void Heal(int _damages)
+    {
+        if (!m_IsDead && !m_Invicible)
+        {
+            if (m_Life - _damages >= 0)
+            {
+                float _startLife = m_Life;
+                m_Life += _damages;
+                // Manages the lifeBar.
+                UIManager.instance.LifeManager(m_PlayerId, _startLife, m_Life);
+                StartCoroutine(Invincible());
+            }
+            else
+            {
+                m_Life = 0;
+                Died();
+            }
+        }
+
+    }
+
     void Died()
     {
+        
         GetComponent<PlayerData>().AddDeath();
         m_IsDead = true;
         m_Invicible = true;
         ChangeCollider(false);
         gameObject.layer = 11;
+        m_Animator.SetTrigger("Die");
     }
 
     IEnumerator Invincible()
@@ -120,6 +157,8 @@ public class Player : MonoBehaviour {
         m_Life = m_MAXLIFE;
         ChangeCollider(true);
         gameObject.layer = 8;
+        m_GameManager.SubDiedPlayer();
+        m_Animator.SetTrigger("Rez");
     }
 
     void ChangeCollider(bool _aliveCollider)
