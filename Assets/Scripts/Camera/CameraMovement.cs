@@ -13,7 +13,7 @@ public class CameraMovement : MonoBehaviour {
     [SerializeField]
     private float m_max_Height;
     [SerializeField]
-    private float m_stepBack;
+    private float m_stepBack, m_smooth;
     private float m_min_Height;
 
     Camera m_mainCam;
@@ -68,25 +68,25 @@ public class CameraMovement : MonoBehaviour {
 
         if (m_exitLeft && m_exitRight)
         {
-            transform.Translate(new Vector3(0.0f, -moveSpeed/ m_stepBack, -moveSpeed));
+            transform.position += Vector3.Lerp(transform.position, new Vector3(0.0f, -moveSpeed / m_stepBack, -moveSpeed), m_smooth);
         }
         else
         {
             if (m_exitLeft && transform.position.x > m_maxX_Left)
-                transform.Translate(new Vector3(-moveSpeed, 0.0f, 0.0f));
+                transform.position += Vector3.Lerp(transform.position, new Vector3(-moveSpeed, 0.0f, 0.0f), m_smooth);
 
             if(m_exitRight && transform.position.x < m_maxX_Right)
-                transform.Translate(new Vector3(moveSpeed, 0.0f, 0.0f));
+                transform.position += Vector3.Lerp(transform.position, new Vector3(moveSpeed, 0.0f, 0.0f), m_smooth);
         }
 
         if(m_exitDown && transform.position.y < m_max_Height)
         {
-            transform.Translate(new Vector3(0.0f, -moveSpeed/ m_stepBack, -moveSpeed));
+            transform.position += Vector3.Lerp(transform.position, new Vector3(0.0f, -moveSpeed / m_stepBack, -moveSpeed), m_smooth);
         }
 
         if (m_allInside && transform.position.y > m_min_Height)
         {
-            transform.Translate(new Vector3(0.0f, moveSpeed/ m_stepBack, moveSpeed));
+            transform.position += Vector3.Lerp(transform.position, new Vector3(0.0f, -moveSpeed / m_stepBack, -moveSpeed), m_smooth);
         }
     }
 }
